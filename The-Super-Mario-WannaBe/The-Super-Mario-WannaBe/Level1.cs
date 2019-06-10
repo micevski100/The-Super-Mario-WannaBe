@@ -7,22 +7,26 @@ using System.Threading.Tasks;
 
 namespace The_Super_Mario_WannaBe
 {
-    public class Level1 : ILevel
+    public class Level1 : Level
     {
         public static readonly Image GenericBlock1 = Properties.Resources.generic_block1;
         public static readonly Image GenericBlock2 = Properties.Resources.generic_block2;
         public static readonly Image GenericBackground = Properties.Resources.generic_background1;
-
+        
         public static readonly int FormHeight = 627 - 42;
         public static readonly int FormWidth = 791 - 17;
 
         public List<Rectangle> Boundaries { get; set; }
+        public Hero Hero { get; set; }
 
-        public Level1()
+        public Level1(Hero hero)
         {
             Boundaries = new List<Rectangle>();
             InitializeList();
+            this.Hero = hero;
         }
+
+        
 
         private void InitializeList()
         {
@@ -52,10 +56,8 @@ namespace The_Super_Mario_WannaBe
 
         }
 
-        public void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
-            Pen pen = new Pen(new SolidBrush(Color.Black));
-
             // adding generic background
             Rectangle leftBackground = new Rectangle(3 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
             Rectangle rightBackground = new Rectangle(18 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
@@ -100,7 +102,9 @@ namespace The_Super_Mario_WannaBe
                 }
 
             }
-            pen.Dispose();
+
+            Hero.Draw(g);
         }
+
     }
 }

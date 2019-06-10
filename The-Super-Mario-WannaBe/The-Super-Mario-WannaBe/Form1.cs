@@ -13,17 +13,76 @@ namespace The_Super_Mario_WannaBe
 
     public partial class Form1 : Form
     {
+        public bool[] arrows;
+        public bool space;
         public Level1 TestLevel1 { get; set; }
         public Form1()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
-            TestLevel1 = new Level1();
+            TestLevel1 = new Level1(new Hero());
+            arrows = new bool[]{ false, false, false, false};
+            space = false;
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             TestLevel1.Draw(e.Graphics);
+        }
+
+        private void GravityTimer_Tick(object sender, EventArgs e)
+        {
+            TestLevel1.Update(arrows, space);
+            //TestLevel1.GravityPull(TestLevel1.Hero, TestLevel1.Boundaries);
+            Invalidate();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue.Equals(Keys.Up))
+            {
+                arrows[0] = true;
+            }
+            if (e.KeyValue.Equals(Keys.Left))
+            {
+                arrows[1] = true;
+            }
+            if (e.KeyValue.Equals(Keys.Down))
+            {
+                arrows[2] = true;
+            }
+            if (e.KeyValue.Equals(Keys.Right))
+            {
+                arrows[3] = true;
+            }
+            if (e.KeyValue.Equals(Keys.Space))
+            {
+                space = true;
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue.Equals(Keys.Up))
+            {
+                arrows[0] = false;
+            }
+            if (e.KeyValue.Equals(Keys.Left))
+            {
+                arrows[1] = false;
+            }
+            if (e.KeyValue.Equals(Keys.Down))
+            {
+                arrows[2] = false;
+            }
+            if (e.KeyValue.Equals(Keys.Right))
+            {
+                arrows[3] = false;
+            }
+            if (e.KeyValue.Equals(Keys.Space))
+            {
+                space = false;
+            }
         }
     }
 }

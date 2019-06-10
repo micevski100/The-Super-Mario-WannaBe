@@ -28,7 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.GravityTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // GravityTimer
+            // 
+            this.GravityTimer.Enabled = true;
+            this.GravityTimer.Interval = 10;
+            this.GravityTimer.Tick += new System.EventHandler(this.GravityTimer_Tick);
             // 
             // Form1
             // 
@@ -38,11 +46,15 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer GravityTimer;
     }
 }
 
