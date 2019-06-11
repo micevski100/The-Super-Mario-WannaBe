@@ -15,9 +15,9 @@ namespace The_Super_Mario_WannaBe
         {
             Left,
             Right,
+            Up,
             None
         }
-
 
         public Hero()
         {
@@ -31,18 +31,29 @@ namespace The_Super_Mario_WannaBe
 
         public void Fall()
         {
-            int y = Character.Y + 2;
+            int y = Character.Y + 1;
             int x = Character.X;
             int width = Character.Width;
             int height = Character.Height;
 
             Character = new Rectangle(x, y, width, height);
         }
+        
 
         private Rectangle MoveLeft()
         {
             int x = Character.X - 1;
             int y = Character.Y;
+            int width = Character.Width;
+            int height = Character.Height;
+
+            return new Rectangle(x, y, width, height);
+        }
+
+        private Rectangle MoveUp()
+        {
+            int x = Character.X;
+            int y = Character.Y - 1;
             int width = Character.Width;
             int height = Character.Height;
 
@@ -61,16 +72,17 @@ namespace The_Super_Mario_WannaBe
 
         public void Move(DIRECTION direction)
         {
-            int[] dir = { 0, 0 };
             if (direction.Equals(DIRECTION.Left))
             {
-                dir[0] -= 1;
                 Character = MoveLeft();
             }
             if (direction.Equals(DIRECTION.Right))
             {
-                dir[0] += 1;
                 Character = MoveRight();
+            }
+            if (direction.Equals(DIRECTION.Up))
+            {
+                Character = MoveUp();
             }
         }
     }

@@ -16,17 +16,12 @@ namespace The_Super_Mario_WannaBe
         public static readonly int FormHeight = 627 - 42;
         public static readonly int FormWidth = 791 - 17;
 
-        public List<Rectangle> Boundaries { get; set; }
-        public Hero Hero { get; set; }
-
         public Level1(Hero hero)
         {
             Boundaries = new List<Rectangle>();
             InitializeList();
             this.Hero = hero;
         }
-
-        
 
         private void InitializeList()
         {
