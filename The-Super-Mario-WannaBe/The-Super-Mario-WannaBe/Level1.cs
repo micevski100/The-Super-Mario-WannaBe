@@ -9,12 +9,162 @@ namespace The_Super_Mario_WannaBe
 {
     public class Level1 : Level
     {
+        public class Spike
+        {
+            public enum TypeOfSpike
+            {
+                LeftToRight,
+                RightToLeft
+            }
+
+            public Rectangle Bounds { get; set; }
+            public Rectangle Start { get; set; }
+            public Rectangle Destination { get; set; }
+            public bool IsActive { get; set; }
+            public int TopBoundary { get; set; }
+            public int LowBoundary { get; set; }
+            public TypeOfSpike Type { get; set; }
+            public bool ArrivedAtDestination { get; set; }
+            public bool ArrivedAtBeginning { get; set; }
+
+            public Spike(Rectangle Start, Rectangle End, int TopBoundary, int LowBoundary, TypeOfSpike Type)
+            {
+                Bounds = Start;
+                Destination = End;
+                IsActive = false;
+                this.Start = Start;
+                this.TopBoundary = TopBoundary;
+                this.LowBoundary = LowBoundary;
+                this.Type = Type;
+                ArrivedAtDestination = false;
+                ArrivedAtBeginning = false;
+            }
+
+            private void CheckHeroPosition(Hero Hero) // heroIsInPosition bool
+            {
+                if (Hero.Character.Y >= TopBoundary && Hero.Character.Y <= LowBoundary)
+                {
+                    Activate();
+                }
+            }
+
+            private void Activate()
+            {
+                IsActive = true;
+            }
+
+            private void Deactivate()
+            {
+                if (Bounds.Equals(Start))
+                {
+                    IsActive = false;
+                    ArrivedAtDestination = false;
+                }
+            }
+
+            public void Spawn(Hero Hero)
+            {
+                CheckHeroPosition(Hero);
+                if (IsActive)
+                {
+                    Move();
+                }
+                Deactivate();
+            }
+
+            public void Move()
+            {
+                if (Type.Equals(TypeOfSpike.LeftToRight))
+                {
+                    if (ArrivedAtDestination)
+                    {
+                        ReturnToLeft();
+                    }
+
+                    if (Bounds.Right < Destination.Right && !ArrivedAtDestination)
+                    {
+                        MoveRight();
+                    }
+                    else
+                    {
+                        ArrivedAtDestination = true;
+                    }                   
+                }
+                else
+                {
+                    if (ArrivedAtDestination)
+                    {
+                        ReturnToRight();
+                    }
+
+                    if (Bounds.Left > Destination.Left)
+                    {
+                        MoveLeft();
+                    }
+                    else
+                    {
+                        ArrivedAtDestination = true;
+                    }
+                }
+            }
+
+            public void Draw(Graphics g)
+            {
+                if (IsActive)
+                {
+                    g.FillRectangle(new SolidBrush(Color.Yellow), Bounds);
+                }
+            }
+
+            private void MoveLeft()
+            {
+                int x = Bounds.X - 10;
+                int y = Bounds.Y;
+                int width = Bounds.Width;
+                int height = Bounds.Height;
+
+                Bounds = new Rectangle(x, y, width, height);
+            }
+
+            private void MoveRight()
+            {
+                int x = Bounds.X + 10;
+                int y = Bounds.Y;
+                int width = Bounds.Width;
+                int height = Bounds.Height;
+
+                Bounds = new Rectangle(x, y, width, height);
+            }
+
+            private void ReturnToLeft()
+            {
+                int x = Bounds.X - 1;
+                int y = Bounds.Y;
+                int width = Bounds.Width;
+                int height = Bounds.Height;
+
+                Bounds = new Rectangle(x, y, width, height);
+            }
+
+            private void ReturnToRight()
+            {
+                int x = Bounds.X + 1;
+                int y = Bounds.Y;
+                int width = Bounds.Width;
+                int height = Bounds.Height;
+
+                Bounds = new Rectangle(x, y, width, height);
+            }
+        }
+
+        public static readonly int FormHeight = 627 - 42;
+        public static readonly int FormWidth = 791 - 17;
         public static readonly Image GenericBlock1 = Properties.Resources.generic_block1;
         public static readonly Image GenericBlock2 = Properties.Resources.generic_block2;
         public static readonly Image GenericBackground = Properties.Resources.generic_background1;
-        
-        public static readonly int FormHeight = 627 - 42;
-        public static readonly int FormWidth = 791 - 17;
+        public static readonly Spike Spike1 = new Spike(new Rectangle(GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            new Rectangle(22 * GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            4 * GenericBlock1.Height, 7 * GenericBlock1.Height, Spike.TypeOfSpike.LeftToRight);
 
         public Level1(Hero hero)
         {
@@ -98,8 +248,13 @@ namespace The_Super_Mario_WannaBe
 
             }
 
+            Spike1.Draw(g);
             Hero.Draw(g);
         }
 
+        public void UpdateSpikes()
+        {
+            Spike1.Spawn(this.Hero);
+        }
     }
 }

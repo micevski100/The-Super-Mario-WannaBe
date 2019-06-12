@@ -16,6 +16,7 @@ namespace The_Super_Mario_WannaBe
         public bool[] arrows;
         public bool space;
         public Level1 TestLevel1 { get; set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -33,11 +34,18 @@ namespace The_Super_Mario_WannaBe
         private void GravityTimer_Tick(object sender, EventArgs e)
         {
             TestLevel1.Update(arrows, space);
+            TestLevel1.UpdateSpikes(); //nema sansi da rabote
             Invalidate();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            /*
+             * if jump[0] == false
+             *  jump[0] = true
+             * else if jump[0] && HeroIsInAir() ??
+             * jump[1] = true
+             */
             if (e.KeyCode == Keys.Left)
             {
                 arrows[0] = true;
@@ -55,6 +63,12 @@ namespace The_Super_Mario_WannaBe
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
+            /*
+             * if(jump[1] == true)
+             * jump[1] = false
+             * else if (jump[1] == false)
+             * jump[0] = false
+             */
             if (e.KeyCode == Keys.Left)
             {
                 arrows[0] = false;

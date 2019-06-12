@@ -12,10 +12,9 @@ namespace The_Super_Mario_WannaBe
         public Hero Hero { get; set; }
         public List<Rectangle> Boundaries { get; set; }
 
-        const int jumpSize = 20; //jumpsize;
+        public static readonly int jumpSize = 10; //jumpsize;
         int currentJump = 0;
         bool isDoubleJumping = false;
-
         abstract public void Draw(Graphics g);
 
         public bool[] Collisions(Rectangle hero, Rectangle rectangle)
@@ -76,7 +75,7 @@ namespace The_Super_Mario_WannaBe
             }
             if (!HeroIsInAir())
             {
-                isDoubleJumping = false;
+                //isDoubleJumping = false;
             }
         }
 
@@ -85,14 +84,6 @@ namespace The_Super_Mario_WannaBe
             bool leftArrow = arrows[0];
             bool rightArrow = arrows[1];
 
-            if (space && !isDoubleJumping)
-            {
-                if (HeroIsInAir())
-                {
-                    isDoubleJumping = true;
-                }
-                currentJump = jumpSize;
-            }
             if (leftArrow && HeroCanMoveLeft())
             {
                 Hero.Move(Hero.DIRECTION.Left);
@@ -101,13 +92,60 @@ namespace The_Super_Mario_WannaBe
             {
                 Hero.Move(Hero.DIRECTION.Right);
             }
+
+            /*
+             * bool[] space
+             * 
+             * if (space[0] && !space[1])
+             *  currentJump = jumpsize
+             * else if (space[0] && space[1])
+             *  currentJump += nesto
+             */
+
+            if (space)
+            {
+                if (!HeroIsInAir())
+                {
+                    currentJump = jumpSize;
+                    isDoubleJumping = true;
+                }
+                else
+                {
+                    if (isDoubleJumping) // it doesnt work.. why ? | it works.. why?
+                    {
+                        currentJump += jumpSize;
+                        //isDoubleJumping = false;
+                    }
+                }
+            }
+
             if (currentJump > 0)
             {
-                Hero.Move(Hero.DIRECTION.Up);
-                currentJump--;
+                if (!HeroCanMoveUp())
+                {
+                    currentJump = 0;
+                }
+                else
+                {
+                    Hero.Move(Hero.DIRECTION.Up);
+                    --currentJump;
+                }
             }
 
             GravityPull();
+        }
+
+            private bool HeroCanMoveUp()
+        {
+            foreach (Rectangle boundary in Boundaries)
+            {
+                bool collisionAbove = Collisions(Hero.Character, boundary)[0];
+                if (collisionAbove && Hero.Character.IntersectsWith(boundary))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private bool HeroCanMoveLeft()
@@ -135,6 +173,5 @@ namespace The_Super_Mario_WannaBe
             }
             return true;
         }
-
     }
 }

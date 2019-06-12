@@ -39,7 +39,6 @@ namespace The_Super_Mario_WannaBe
             Character = new Rectangle(x, y, width, height);
         }
         
-
         private Rectangle MoveLeft()
         {
             int x = Character.X - 1;
