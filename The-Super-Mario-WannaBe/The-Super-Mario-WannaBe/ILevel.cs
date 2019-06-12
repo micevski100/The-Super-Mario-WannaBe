@@ -12,7 +12,7 @@ namespace The_Super_Mario_WannaBe
         public Hero Hero { get; set; }
         public List<Rectangle> Boundaries { get; set; }
 
-        public static readonly int jumpSize = 10; //jumpsize;
+        public static readonly int jumpSize = 20; //jumpsize;
         int currentJump = 0;
         bool isDoubleJumping = false;
         abstract public void Draw(Graphics g);
@@ -75,7 +75,7 @@ namespace The_Super_Mario_WannaBe
             }
             if (!HeroIsInAir())
             {
-                //isDoubleJumping = false;
+                isDoubleJumping = false;
             }
         }
 
@@ -93,28 +93,19 @@ namespace The_Super_Mario_WannaBe
                 Hero.Move(Hero.DIRECTION.Right);
             }
 
-            /*
-             * bool[] space
-             * 
-             * if (space[0] && !space[1])
-             *  currentJump = jumpsize
-             * else if (space[0] && space[1])
-             *  currentJump += nesto
-             */
-
             if (space)
             {
                 if (!HeroIsInAir())
                 {
                     currentJump = jumpSize;
-                    isDoubleJumping = true;
+                    //isDoubleJumping = false;
                 }
                 else
                 {
-                    if (isDoubleJumping) // it doesnt work.. why ? | it works.. why?
+                    if (!isDoubleJumping) // it doesnt work.. why ? | it works.. why?
                     {
                         currentJump += jumpSize;
-                        //isDoubleJumping = false;
+                        isDoubleJumping = true;
                     }
                 }
             }
