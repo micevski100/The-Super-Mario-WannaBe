@@ -97,7 +97,7 @@ namespace The_Super_Mario_WannaBe
                         ReturnToRight();
                     }
 
-                    if (Bounds.Left > Destination.Left)
+                    if (Bounds.Left > Destination.Left && !ArrivedAtDestination)
                     {
                         MoveLeft();
                     }
@@ -110,10 +110,10 @@ namespace The_Super_Mario_WannaBe
 
             public void Draw(Graphics g)
             {
-                if (IsActive)
-                {
+                //if (IsActive)
+                //{
                     g.FillRectangle(new SolidBrush(Color.Yellow), Bounds);
-                }
+                //}
             }
 
             private void MoveLeft()
@@ -155,22 +155,47 @@ namespace The_Super_Mario_WannaBe
 
                 Bounds = new Rectangle(x, y, width, height);
             }
+
+            public void Collision(Hero Hero)
+            {
+                if (Bounds.IntersectsWith(Hero.Character))
+                    Hero.Dead = true;
+            }
         }
 
+        public string GameOverMessage = String.Format("Game Over!\nPress \"R\" to try again.");
         public static readonly int FormHeight = 627 - 42;
         public static readonly int FormWidth = 791 - 17;
         public static readonly Image GenericBlock1 = Properties.Resources.generic_block1;
         public static readonly Image GenericBlock2 = Properties.Resources.generic_block2;
         public static readonly Image GenericBackground = Properties.Resources.generic_background1;
-        public static readonly Spike Spike1 = new Spike(new Rectangle(GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
-            new Rectangle(22 * GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
-            4 * GenericBlock1.Height, 7 * GenericBlock1.Height, Spike.TypeOfSpike.LeftToRight);
+        public List<Spike> Spikes = new List<Spike>();
 
         public Level1(Hero hero)
         {
             Boundaries = new List<Rectangle>();
             InitializeList();
+            InitializeSpikes();
             this.Hero = hero;
+            
+        }
+
+        private void InitializeSpikes()
+        {
+            // First spike
+            Spikes.Add(new Spike(new Rectangle(GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            new Rectangle(22 * GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            4 * GenericBlock1.Height, 7 * GenericBlock1.Height, Spike.TypeOfSpike.LeftToRight));
+
+            // Second spike
+            Spikes.Add(new Spike(new Rectangle(24 * GenericBlock1.Width - GenericBlock1.Width / 2, 8 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            new Rectangle(3 * GenericBlock1.Width - GenericBlock1.Width / 2, 8 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            8 * GenericBlock1.Height, 11 * GenericBlock1.Height, Spike.TypeOfSpike.RightToLeft));
+
+            // Third spike
+            Spikes.Add(new Spike(new Rectangle(24 * GenericBlock1.Width - GenericBlock1.Width / 2, 12 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            new Rectangle(3 * GenericBlock1.Width - GenericBlock1.Width / 2, 8 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
+            12 * GenericBlock1.Height, 15 * GenericBlock1.Height, Spike.TypeOfSpike.RightToLeft));
         }
 
         private void InitializeList()
@@ -248,13 +273,29 @@ namespace The_Super_Mario_WannaBe
 
             }
 
-            Spike1.Draw(g);
+            foreach(Spike spike in Spikes)
+            {
+                spike.Draw(g);
+            }
+
             Hero.Draw(g);
+            /*if (!Hero.Dead)
+            {
+                Hero.Draw(g);
+            }
+            else
+            {
+                //g.DrawString(GameOverMessage, new Font(FontFamily.GenericSansSerif, 60), new SolidBrush(Color.Red), new Point(120, 150));
+            }*/
         }
 
         public void UpdateSpikes()
         {
-            Spike1.Spawn(this.Hero);
+            foreach(Spike spike in Spikes)
+            {
+                spike.Spawn(Hero);
+                spike.Collision(Hero);
+            }
         }
     }
 }

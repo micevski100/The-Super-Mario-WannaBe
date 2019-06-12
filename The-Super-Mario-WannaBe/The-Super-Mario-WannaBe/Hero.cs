@@ -10,7 +10,8 @@ namespace The_Super_Mario_WannaBe
     public class Hero
     {
         public Rectangle Character { get; set; }
-        
+        public bool Dead { get; set; }
+
         public enum DIRECTION
         {
             Left,
@@ -22,6 +23,7 @@ namespace The_Super_Mario_WannaBe
         public Hero()
         {
             Character = new Rectangle((int) (5.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
+            Dead = false;
         }
 
         public void Draw(Graphics g)
