@@ -26,6 +26,8 @@ namespace The_Super_Mario_WannaBe
             public TypeOfSpike Type { get; set; }
             public bool ArrivedAtDestination { get; set; }
             public bool ArrivedAtBeginning { get; set; }
+            private static readonly Image LeftToRightSpike = Properties.Resources.left_to_right_spike;
+            private static readonly Image RightToLeftSpike = Properties.Resources.right_to_left_spike;
 
             public Spike(Rectangle Start, Rectangle End, int TopBoundary, int LowBoundary, TypeOfSpike Type)
             {
@@ -112,7 +114,14 @@ namespace The_Super_Mario_WannaBe
             {
                 //if (IsActive)
                 //{
-                    g.FillRectangle(new SolidBrush(Color.Yellow), Bounds);
+                if (Type == TypeOfSpike.LeftToRight)
+                {
+                    g.DrawImage(LeftToRightSpike, Bounds);
+                }
+                else
+                {
+                    g.DrawImage(RightToLeftSpike, Bounds);
+                }
                 //}
             }
 
@@ -278,15 +287,14 @@ namespace The_Super_Mario_WannaBe
                 spike.Draw(g);
             }
 
-            Hero.Draw(g);
-            /*if (!Hero.Dead)
+            if (!Hero.Dead)
             {
                 Hero.Draw(g);
             }
             else
             {
-                //g.DrawString(GameOverMessage, new Font(FontFamily.GenericSansSerif, 60), new SolidBrush(Color.Red), new Point(120, 150));
-            }*/
+                g.DrawString(GameOverMessage, new Font(FontFamily.GenericSansSerif, 60), new SolidBrush(Color.Red), new Point(120, 150));
+            }
         }
 
         public void UpdateSpikes()

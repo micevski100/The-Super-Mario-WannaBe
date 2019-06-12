@@ -28,6 +28,8 @@ namespace The_Super_Mario_WannaBe
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            //e.Graphics.Clear(Color.FromArgb(241, 202, 190));
+            e.Graphics.Clear(Color.Silver);
             TestLevel1.Draw(e.Graphics);
         }
 
