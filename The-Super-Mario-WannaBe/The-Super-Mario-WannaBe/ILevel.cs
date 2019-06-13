@@ -12,7 +12,7 @@ namespace The_Super_Mario_WannaBe
         public Hero Hero { get; set; }
         public List<Rectangle> Boundaries { get; set; }
 
-        public static readonly int jumpSize = 20; //jumpsize;
+        public static readonly int jumpSize = 80; //jumpsize;
         int currentJump = 0;
         bool isDoubleJumping = false;
         abstract public void Draw(Graphics g);
@@ -104,7 +104,7 @@ namespace The_Super_Mario_WannaBe
                 {
                     if (!isDoubleJumping) // it doesnt work.. why ? | it works.. why?
                     {
-                        currentJump += jumpSize;
+                        currentJump += jumpSize / 2;
                         isDoubleJumping = true;
                     }
                 }

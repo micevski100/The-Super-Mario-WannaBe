@@ -29,7 +29,10 @@ namespace The_Super_Mario_WannaBe
             private static readonly Image LeftToRightSpike = Properties.Resources.left_to_right_spike;
             private static readonly Image RightToLeftSpike = Properties.Resources.right_to_left_spike;
 
-            public Spike(Rectangle Start, Rectangle End, int TopBoundary, int LowBoundary, TypeOfSpike Type)
+            public int VerticalBoundary { get; set; }
+            public bool Inequality { get; set; }
+
+            public Spike(Rectangle Start, Rectangle End, int TopBoundary, int LowBoundary, TypeOfSpike Type, int VerticalBoundary, bool Inequality)
             {
                 Bounds = Start;
                 Destination = End;
@@ -40,13 +43,28 @@ namespace The_Super_Mario_WannaBe
                 this.Type = Type;
                 ArrivedAtDestination = false;
                 ArrivedAtBeginning = false;
+                this.VerticalBoundary = VerticalBoundary;
+                this.Inequality = Inequality;
             }
 
             private void CheckHeroPosition(Hero Hero) // heroIsInPosition bool
             {
                 if (Hero.Character.Y >= TopBoundary && Hero.Character.Y <= LowBoundary)
                 {
-                    Activate();
+                    if (Inequality)
+                    {
+                        if (Hero.Character.X <= VerticalBoundary)
+                        {
+                            Activate();
+                        }
+                    }
+                    else
+                    {
+                        if (Hero.Character.X >= VerticalBoundary)
+                        {
+                            Activate();
+                        }
+                    }
                 }
             }
 
@@ -112,17 +130,17 @@ namespace The_Super_Mario_WannaBe
 
             public void Draw(Graphics g)
             {
-                //if (IsActive)
-                //{
-                if (Type == TypeOfSpike.LeftToRight)
+                if (IsActive)
                 {
-                    g.DrawImage(LeftToRightSpike, Bounds);
+                    if (Type == TypeOfSpike.LeftToRight)
+                    {
+                        g.DrawImage(LeftToRightSpike, Bounds);
+                    }
+                    else
+                    {
+                        g.DrawImage(RightToLeftSpike, Bounds);
+                    }
                 }
-                else
-                {
-                    g.DrawImage(RightToLeftSpike, Bounds);
-                }
-                //}
             }
 
             private void MoveLeft()
@@ -186,7 +204,6 @@ namespace The_Super_Mario_WannaBe
             InitializeList();
             InitializeSpikes();
             this.Hero = hero;
-            
         }
 
         private void InitializeSpikes()
@@ -194,17 +211,17 @@ namespace The_Super_Mario_WannaBe
             // First spike
             Spikes.Add(new Spike(new Rectangle(GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
             new Rectangle(22 * GenericBlock1.Width, 4 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
-            4 * GenericBlock1.Height, 7 * GenericBlock1.Height, Spike.TypeOfSpike.LeftToRight));
+            4 * GenericBlock1.Height, 7 * GenericBlock1.Height, Spike.TypeOfSpike.LeftToRight, FormWidth - 3 * GenericBlock1.Width, true));
 
             // Second spike
             Spikes.Add(new Spike(new Rectangle(24 * GenericBlock1.Width - GenericBlock1.Width / 2, 8 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
             new Rectangle(3 * GenericBlock1.Width - GenericBlock1.Width / 2, 8 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
-            8 * GenericBlock1.Height, 11 * GenericBlock1.Height, Spike.TypeOfSpike.RightToLeft));
+            8 * GenericBlock1.Height, 11 * GenericBlock1.Height, Spike.TypeOfSpike.RightToLeft, 3 * GenericBlock1.Width, false));
 
             // Third spike
             Spikes.Add(new Spike(new Rectangle(24 * GenericBlock1.Width - GenericBlock1.Width / 2, 12 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
             new Rectangle(3 * GenericBlock1.Width - GenericBlock1.Width / 2, 8 * GenericBlock1.Height, GenericBlock1.Width / 2, 3 * GenericBlock1.Height),
-            12 * GenericBlock1.Height, 15 * GenericBlock1.Height, Spike.TypeOfSpike.RightToLeft));
+            12 * GenericBlock1.Height, 15 * GenericBlock1.Height, Spike.TypeOfSpike.RightToLeft, FormWidth - 5 * GenericBlock1.Width, false));
         }
 
         private void InitializeList()
@@ -304,6 +321,12 @@ namespace The_Super_Mario_WannaBe
                 spike.Spawn(Hero);
                 spike.Collision(Hero);
             }
+        }
+
+        public new void Update(bool[] arrows, bool space)
+        {
+            base.Update(arrows, space);
+            UpdateSpikes();
         }
     }
 }

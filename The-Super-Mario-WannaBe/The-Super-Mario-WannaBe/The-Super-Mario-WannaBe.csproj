@@ -55,6 +55,7 @@
     <Compile Include="Hero.cs" />
     <Compile Include="ILevel.cs" />
     <Compile Include="Level1.cs" />
+    <Compile Include="Level2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -100,6 +101,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\spike1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\output-onlinepngtools.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\output-onlinepngtools 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\generic_block_with_grass.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
