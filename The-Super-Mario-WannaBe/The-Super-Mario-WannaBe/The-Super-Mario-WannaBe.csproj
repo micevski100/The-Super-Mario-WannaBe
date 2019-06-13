@@ -111,5 +111,14 @@
   <ItemGroup>
     <None Include="Resources\generic_block_with_grass.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tree_transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apple-transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cloud-transparent.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
