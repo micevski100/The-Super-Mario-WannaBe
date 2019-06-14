@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace The_Super_Mario_WannaBe
 {
+
     public class Level2 : Level
     {
         public static readonly int FormHeight = 627 - 38;
@@ -19,6 +20,9 @@ namespace The_Super_Mario_WannaBe
 
         private List<Rectangle> Trees { get; set; }
         private List<Rectangle> Clouds { get; set; }
+        private List<Apple> Apples { get; set; }
+
+        public List<Rectangle> Triggers { get; set; }
 
         public Level2(Hero hero)
         {
@@ -26,7 +30,62 @@ namespace The_Super_Mario_WannaBe
             InitializeList();
             InitializeTrees();
             InitializeClouds();
+            InitializeApples();
+            InitializeTriggers();
             this.Hero = hero;
+        }
+
+        private void InitializeTriggers()
+        {
+            Triggers = new List<Rectangle>();
+
+            Triggers.Add(new Rectangle(Apples[0].Bounds.Left, 0, Apple.GenericApple.Width, Apples[0].Bounds.Top - 2 * GenericBlock1.Height));
+            Triggers.Add(new Rectangle(Apples[1].Bounds.Left, Apples[1].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[1].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[2].Bounds.Left - 5, 0, Apple.GenericApple.Width, Apples[2].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 5, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 5, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[5].Bounds.Left, 0, Apple.GenericApple.Width, Apples[3].Bounds.Top - 10));
+            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 5, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 5, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[8].Bounds.Left, 0, Apple.GenericApple.Width, Apples[6].Bounds.Top - 20));
+            Triggers.Add(new Rectangle(Apples[9].Bounds.Right - 5, Apples[9].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[9].Bounds.Top));
+            Triggers.Add(new Rectangle(Triggers[9].Right - 10, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
+            Triggers.Add(new Rectangle(Triggers[9].Right - 10, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
+            Triggers.Add(new Rectangle(Apples[12].Bounds.Left, 0, Apple.GenericApple.Width, Apples[12].Bounds.Bottom));
+            Triggers.Add(new Rectangle(Apples[13].Bounds.Left - 6, Apples[13].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[13].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[14].Bounds.Left - 2, 0, Apple.GenericApple.Width, Apples[13].Bounds.Top - 1));
+
+            for (int i = 0; i < Triggers.Count; i++)
+            {
+                Apples[i].TriggerArea = Triggers[i];
+            }
+        }
+
+        private void InitializeApples()
+        {
+            Apples = new List<Apple>();
+
+            /*
+                nadole => x = ovosje.X +- offset, y = zemja + doublejump
+                nagore => x = ovosje.X +- offset, y = ovosje.Top - formHeight;
+             */
+
+            Apples.Add(new Apple(2 * GenericBlock1.Width, FormHeight - 5 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple1
+            Apples.Add(new Apple(8 * GenericBlock1.Width, FormHeight - 4 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple2
+            Apples.Add(new Apple(9 * GenericBlock1.Width, FormHeight - 5 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Flying)); // Apple3
+            Apples.Add(new Apple(11 * GenericBlock1.Width - 8, FormHeight - (int)(4.5 * GenericBlock1.Height), new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple4
+            Apples.Add(new Apple(12 * GenericBlock1.Width - 8, FormHeight - (int)(4.5 * GenericBlock1.Height), new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple5
+            Apples.Add(new Apple(13 * GenericBlock1.Width, FormHeight - 5 * GenericBlock1.Height + 5, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Flying)); // Apple6
+            Apples.Add(new Apple(13 * GenericBlock1.Width + 15, FormHeight - 4 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple7
+            Apples.Add(new Apple(15 * GenericBlock1.Width - 10, FormHeight - (int)(4.5 * GenericBlock1.Height), new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple8
+            Apples.Add(new Apple(16 * GenericBlock1.Width - 15, FormHeight - (int)(4.5 * GenericBlock1.Height) - 5, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Flying)); // Apple9
+            Apples.Add(new Apple(17 * GenericBlock1.Width - 10, FormHeight - 4 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple10
+            Apples.Add(new Apple(18 * GenericBlock1.Width, FormHeight - (int)(4.5 * GenericBlock1.Height) - 5, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple11
+            Apples.Add(new Apple(18 * GenericBlock1.Width + 10, FormHeight - 6 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple12
+            Apples.Add(new Apple(19 * GenericBlock1.Width + 5, FormHeight - 6 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Flying)); // Apple13
+            Apples.Add(new Apple(21 * GenericBlock1.Width - 10, FormHeight - 5 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple14
+            Apples.Add(new Apple(23 * GenericBlock1.Width, FormHeight - 5 * GenericBlock1.Height - 12, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Flying)); // Apple15
+
         }
 
         private void InitializeClouds()
@@ -89,8 +148,9 @@ namespace The_Super_Mario_WannaBe
 
         public override void Draw(Graphics g)
         {
+
             // drawing clouds first
-            foreach(Rectangle cloud in Clouds)
+            foreach (Rectangle cloud in Clouds)
             {
                 g.DrawImage(GenericCloud, cloud);
             }
@@ -105,6 +165,9 @@ namespace The_Super_Mario_WannaBe
             {
                 g.DrawImage(GenericTree, Trees[i]);
             }
+
+            //g.FillRectangles(new SolidBrush(Color.Red), Triggers.ToArray());
+            //g.DrawRectangles(new Pen(new SolidBrush(Color.Yellow)), Triggers.ToArray());
 
             // right wall
             for (int i = 0; i < FormHeight; i += GenericBlock1.Height)
@@ -181,6 +244,28 @@ namespace The_Super_Mario_WannaBe
             for (int i = FormHeight - GenericBlock1.Height; i < FormHeight; i += GenericBackground.Height)
             {
                 g.DrawImage(GenericBackground, new Rectangle(BackgroundStripe.X, i, 3 * GenericBlock1.Width, GenericBackground.Height));
+            }
+
+            DrawApples(g);
+
+            Hero.Draw(g);
+        }
+
+        private void DrawApples(Graphics g)
+        {
+            foreach(Apple apple in Apples)
+            {
+                apple.Draw(g);
+            }
+        }
+
+        public new void Update(bool[] arrows, bool space)
+        {
+            base.Update(arrows, space);
+            
+            foreach(Apple apple in Apples)
+            {
+                apple.Update(this.Hero);
             }
         }
     }

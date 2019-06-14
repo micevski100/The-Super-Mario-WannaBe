@@ -38,7 +38,7 @@ namespace The_Super_Mario_WannaBe
 
         private void GravityTimer_Tick(object sender, EventArgs e)
         {
-            //TestLevel1.Update(arrows, spacePress);
+            TestLevel2.Update(arrows, spacePress);
             Invalidate();
             spacePress = false;
         }
