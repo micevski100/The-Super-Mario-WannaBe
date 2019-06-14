@@ -32,7 +32,7 @@ namespace The_Super_Mario_WannaBe
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            //e.Graphics.Clear(Color.Silver);
+            e.Graphics.Clear(Color.LightBlue);
             TestLevel2.Draw(e.Graphics);
         }
 
