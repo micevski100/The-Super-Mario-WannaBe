@@ -21,11 +21,9 @@ namespace The_Super_Mario_WannaBe
             public static readonly int UpperLimit = GenericBlock1.Height;
             public static readonly int LowerLimit = FormHeight - GenericBlock1.Height;
             public static readonly Image MovingFloor = Properties.Resources.MovingFloor;
-
             public Rectangle Bounds { get; set; }
             public int Speed { get; set; }
             public FloorType Type;
-
 
             public ElevatorFloor(Point Location, FloorType Type)
             {
@@ -73,8 +71,6 @@ namespace The_Super_Mario_WannaBe
                 g.DrawImage(MovingFloor, Bounds);
             }
         }
-
-
 
         public static readonly Image UpsideDownSpikes = Properties.Resources.UpsideDownSpikes;
         public static readonly Image UpRightSpikes = Properties.Resources.UpRightSpikes;
@@ -229,8 +225,6 @@ namespace The_Super_Mario_WannaBe
 
         }
 
-        
-
         private void DrawPoles(Graphics g)
         {
             foreach(Rectangle pole in Poles)
@@ -338,18 +332,19 @@ namespace The_Super_Mario_WannaBe
             }
             foreach(ElevatorFloor floor in Elevator3)
             {
-                //floor.Move();
+                floor.Move();
             }
 
             foreach(ElevatorFloor floor in Elevator2)
             {
-                //floor.Move();
+                floor.Move();
             }
 
             UpdateElevatorBounds();
+            PojmaNeemKakDaSeVika();
         }
 
-        public void UpdateElevatorBounds()
+        private void UpdateElevatorBounds()
         {
             int counter = 0;
             for (int i = 9; i < Boundaries.Count; i++)
@@ -364,9 +359,45 @@ namespace The_Super_Mario_WannaBe
                 }
                 else // elevator 3
                 {
+
                     Boundaries[i] = Elevator3[counter - 8].Bounds;
                 }
                 ++counter;
+            }
+        }
+        
+        // ElevatorFLoor
+        private  void PojmaNeemKakDaSeVika()
+        {
+            // I have no idea what im doin
+            List<ElevatorFloor> allFLoors = new List<ElevatorFloor>();
+
+            foreach (ElevatorFloor floor in Elevator1)
+                allFLoors.Add(floor);
+
+            foreach (ElevatorFloor floor in Elevator2)
+                allFLoors.Add(floor);
+
+            foreach (ElevatorFloor floor in Elevator3)
+                allFLoors.Add(floor);
+
+            foreach (ElevatorFloor floor in allFLoors)
+            {
+                bool StandingOnFloor = ((Hero.Character.Bottom > floor.Bounds.Top - 1 && floor.Bounds.Top - 1 > Hero.Character.Top))
+                    && Hero.Character.IntersectsWith(floor.Bounds);
+
+                bool CheckIfHittingFromAbove = (Hero.Character.Top < floor.Bounds.Bottom + 1 && floor.Bounds.Bottom + 1 < Hero.Character.Bottom); //hit something above
+
+                if (StandingOnFloor && !CheckIfHittingFromAbove) // hero stands above something
+                {
+                    int x = Hero.Character.X;
+                    int y = Hero.Character.Y + floor.Speed;
+                    int width = Hero.Character.Width;
+                    int height = Hero.Character.Height;
+
+                    Hero.Character = new Rectangle(x, y, width, height);
+                    break;
+                }
             }
         }
     }
