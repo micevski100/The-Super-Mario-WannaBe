@@ -124,5 +124,8 @@
   <ItemGroup>
     <None Include="Resources\generic_block_with_grass_fixed.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GameOverMessage-Transparent.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

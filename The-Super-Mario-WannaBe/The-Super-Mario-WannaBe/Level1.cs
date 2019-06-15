@@ -190,7 +190,6 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public string GameOverMessage = String.Format("Game Over!\nPress \"R\" to try again.");
         public static readonly int FormHeight = 627 - 42;
         public static readonly int FormWidth = 791 - 17;
         public static readonly Image GenericBlock1 = Properties.Resources.generic_block1;
@@ -304,14 +303,7 @@ namespace The_Super_Mario_WannaBe
                 spike.Draw(g);
             }
 
-            if (!Hero.Dead)
-            {
-                Hero.Draw(g);
-            }
-            else
-            {
-                g.DrawString(GameOverMessage, new Font(FontFamily.GenericSansSerif, 60), new SolidBrush(Color.Red), new Point(120, 150));
-            }
+            Hero.Draw(g);
         }
 
         public void UpdateSpikes()

@@ -126,7 +126,7 @@ namespace The_Super_Mario_WannaBe
             GravityPull();
         }
 
-            private bool HeroCanMoveUp()
+        private bool HeroCanMoveUp()
         {
             foreach (Rectangle boundary in Boundaries)
             {

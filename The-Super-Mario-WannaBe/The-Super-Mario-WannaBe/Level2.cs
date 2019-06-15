@@ -65,11 +65,6 @@ namespace The_Super_Mario_WannaBe
         {
             Apples = new List<Apple>();
 
-            /*
-                nadole => x = ovosje.X +- offset, y = zemja + doublejump
-                nagore => x = ovosje.X +- offset, y = ovosje.Top - formHeight;
-             */
-
             Apples.Add(new Apple(2 * GenericBlock1.Width, FormHeight - 5 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple1
             Apples.Add(new Apple(8 * GenericBlock1.Width, FormHeight - 4 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Falling)); // Apple2
             Apples.Add(new Apple(9 * GenericBlock1.Width, FormHeight - 5 * GenericBlock1.Height, new Rectangle(0, 0, 10, 10), Apple.TypeOfApple.Flying)); // Apple3
@@ -262,10 +257,25 @@ namespace The_Super_Mario_WannaBe
         public new void Update(bool[] arrows, bool space)
         {
             base.Update(arrows, space);
-            
+
+            DeleteUnnecessaryApples();
             foreach(Apple apple in Apples)
             {
-                apple.Update(this.Hero);
+                apple.CheckCollision(Hero);
+                apple.Update(Hero);
+            }
+
+        }
+
+        private void DeleteUnnecessaryApples()
+        {
+            for (int i = 0; i < Apples.Count; i++)
+            {
+                if (!Apples[i].InForm)
+                {
+                    Apples.RemoveAt(i);
+                    --i;
+                }
             }
         }
     }

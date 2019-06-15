@@ -68,6 +68,8 @@ namespace The_Super_Mario_WannaBe
                 {
                     MoveUp();
                 }
+
+                CheckPosition();
             }
         }
 
@@ -81,9 +83,12 @@ namespace The_Super_Mario_WannaBe
             Bounds = new Rectangle(Bounds.X, Bounds.Y + 5, Bounds.Width, Bounds.Height);
         }
 
-        public bool CheckCollision(Hero Hero)
+        public void CheckCollision(Hero Hero)
         {
-            return Bounds.IntersectsWith(Hero.Character);
+            if (Bounds.IntersectsWith(Hero.Character))
+            {
+                Hero.Dead = true;
+            }
         }
     }
 }

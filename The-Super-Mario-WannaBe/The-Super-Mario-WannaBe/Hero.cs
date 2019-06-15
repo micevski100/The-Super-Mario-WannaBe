@@ -9,9 +9,6 @@ namespace The_Super_Mario_WannaBe
 {
     public class Hero
     {
-        public Rectangle Character { get; set; }
-        public bool Dead { get; set; }
-
         public enum DIRECTION
         {
             Left,
@@ -19,6 +16,10 @@ namespace The_Super_Mario_WannaBe
             Up,
             None
         }
+        public Rectangle Character { get; set; }
+        public bool Dead { get; set; }
+        public static readonly Image GameOverMessage = Properties.Resources.GameOverMessage;
+
 
         public Hero()
         {
@@ -28,7 +29,14 @@ namespace The_Super_Mario_WannaBe
 
         public void Draw(Graphics g)
         {
-            g.FillRectangle(new SolidBrush(Color.Black), Character);
+            if (!Dead)
+            {
+                g.FillRectangle(new SolidBrush(Color.Black), Character);
+            }
+            else
+            {
+                g.DrawImage(GameOverMessage, new Point(175, 200));
+            }
         }
 
         public void Fall()
