@@ -23,8 +23,8 @@ namespace The_Super_Mario_WannaBe
         {
             InitializeComponent();
             this.DoubleBuffered = true;
-            //TestLevel1 = new Level1(new Hero());
-            TestLevel2 = new Level2(new Hero());
+            TestLevel1 = new Level1(new Hero());
+            //TestLevel2 = new Level2(new Hero());
             arrows = new bool[]{ false, false };
             space = false;
             spacePress = false;
@@ -33,12 +33,12 @@ namespace The_Super_Mario_WannaBe
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.LightBlue);
-            TestLevel2.Draw(e.Graphics);
+            TestLevel1.Draw(e.Graphics);
         }
 
         private void GravityTimer_Tick(object sender, EventArgs e)
         {
-            TestLevel2.Update(arrows, spacePress);
+            TestLevel1.Update(arrows, spacePress);
             Invalidate();
             spacePress = false;
         }
