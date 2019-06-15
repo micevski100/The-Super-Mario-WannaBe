@@ -153,6 +153,26 @@ namespace The_Super_Mario_WannaBe.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MovingFloor {
+            get {
+                object obj = ResourceManager.GetObject("MovingFloor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pole {
+            get {
+                object obj = ResourceManager.GetObject("Pole", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap right_to_left_spike {
             get {
                 object obj = ResourceManager.GetObject("right_to_left_spike", resourceCulture);
@@ -166,6 +186,26 @@ namespace The_Super_Mario_WannaBe.Properties {
         internal static System.Drawing.Bitmap tree {
             get {
                 object obj = ResourceManager.GetObject("tree", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UpRightSpikes {
+            get {
+                object obj = ResourceManager.GetObject("UpRightSpikes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UpsideDownSpikes {
+            get {
+                object obj = ResourceManager.GetObject("UpsideDownSpikes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
