@@ -80,7 +80,8 @@ namespace The_Super_Mario_WannaBe
         public static readonly int FormHeight = Level2.FormHeight;
         public static readonly int FormWidth = Level2.FormWidth + 1;
 
-        //public List<Rectangle> Boundaries { get; set; }
+        public Size SizeOfTrigger = Properties.Resources.SingleSpikeUpsideDown.Size;
+
         public List<Rectangle> UpsideDownTriggers { get; set; }
         public List<Rectangle> UpRightTriggers { get; set; }
         public List<ElevatorFloor> Elevator1 { get; set; }
@@ -88,7 +89,6 @@ namespace The_Super_Mario_WannaBe
         public List<ElevatorFloor> Elevator3 { get; set; }
         public Rectangle UpsideDownSpikesBounds { get; set; }
         public Rectangle UpRightSpikesBounds { get; set; }
-        public List<Rectangle> previousFloors { get; set; }
 
         public bool c { get; set; }
         public int check { get; set; }
@@ -102,7 +102,6 @@ namespace The_Super_Mario_WannaBe
             check = 0;
 
             Boundaries = new List<Rectangle>();
-            previousFloors = new List<Rectangle>();
             UpsideDownTriggers = new List<Rectangle>();
             UpRightTriggers = new List<Rectangle>();
             Poles = new List<Rectangle>();
@@ -118,8 +117,10 @@ namespace The_Super_Mario_WannaBe
             InitializeElevator2();
             InitializeElevator3();
 
-            this.Hero = Hero;
+            InitializeTriggers();
 
+            this.Hero = Hero;
+            this.Hero.Character = new RectangleF(FormWidth - GenericBlock1.Width, 7 * GenericBlock1.Height, Hero.Character.Width, Hero.Character.Height);
         }
 
         public void InitializeBounds()
@@ -146,7 +147,6 @@ namespace The_Super_Mario_WannaBe
         public void InitializeElevator1()
         {
             Elevator1 = new List<ElevatorFloor>();
-            ElevatorFloor.FloorType type = ElevatorFloor.FloorType.GoingDown;
             int size = ElevatorFloor.LowerLimit + 1 - ElevatorFloor.UpperLimit;
 
             int FirstFloorY = RandomFloorGenerator.Next(ElevatorFloor.UpperLimit, ElevatorFloor.LowerLimit + 1);
@@ -165,14 +165,12 @@ namespace The_Super_Mario_WannaBe
             foreach (ElevatorFloor floor in Elevator1)
             {
                 Boundaries.Add(floor.Bounds);
-                previousFloors.Add(floor.Bounds);
             }
         }
 
         public void InitializeElevator2()
         {
             Elevator2 = new List<ElevatorFloor>();
-            ElevatorFloor.FloorType type = ElevatorFloor.FloorType.GoingDown;
             int size = ElevatorFloor.LowerLimit + 1 - ElevatorFloor.UpperLimit;
 
             int FirstFloorY = RandomFloorGenerator.Next(ElevatorFloor.UpperLimit, ElevatorFloor.LowerLimit + 1);
@@ -191,7 +189,6 @@ namespace The_Super_Mario_WannaBe
             foreach (ElevatorFloor floor in Elevator2)
             {
                 Boundaries.Add(floor.Bounds);
-                previousFloors.Add(floor.Bounds);
             }
         }
 
@@ -208,13 +205,31 @@ namespace The_Super_Mario_WannaBe
             foreach (ElevatorFloor floor in Elevator3)
             {
                 Boundaries.Add(floor.Bounds);
-                previousFloors.Add(floor.Bounds);
             }
         }
 
         public void InitializeTriggers()
         {
+            //UpsideDown triggers
+            for (int i = UpsideDownSpikesBounds.X + 6; i < UpsideDownSpikesBounds.X + UpsideDownSpikesBounds.Width; i += GenericBlock1.Width)
+            {
+                UpsideDownTriggers.Add(new Rectangle(i, UpsideDownSpikesBounds.Y, 8, 24));
+            }
 
+            UpsideDownTriggers.Add(new Rectangle(UpsideDownSpikesBounds.X, UpsideDownSpikesBounds.Y, UpsideDownSpikesBounds.Width - 10, UpsideDownSpikesBounds.Height / 4));
+
+            //UpRight triggers
+            /*for (int i = UpRightSpikesBounds.X + 11; i < UpRightSpikesBounds.X + UpRightSpikesBounds.Width; i += GenericBlock1.Width + 2)
+            {
+                UpRightTriggers.Add(new Rectangle(i, UpRightSpikesBounds.Y, 10, 24));
+            }*/
+
+            for (int i = UpRightSpikesBounds.X; i < UpRightSpikesBounds.Right; i += GenericBlock1.Width)
+            {
+                UpRightTriggers.Add(new Rectangle(i, UpRightSpikesBounds.Y, 10, 24));
+            }
+
+            UpRightTriggers.Add(new Rectangle(UpRightSpikesBounds.X, UpRightSpikesBounds.Bottom - 8, UpRightSpikesBounds.Width - 2, UpRightSpikesBounds.Height / 4));
         }
 
         private void InitializePoles()
@@ -320,11 +335,15 @@ namespace The_Super_Mario_WannaBe
             }
 
             Hero.Draw(g);
+
+            g.DrawRectangles(new Pen(new SolidBrush(Color.Red)), UpsideDownTriggers.ToArray());
+
+            g.DrawRectangles(new Pen(new SolidBrush(Color.Red)), UpRightTriggers.ToArray());
+
         }
 
         public new void Update(bool[] arrows, bool space)
         {
-            base.Update(arrows, space);
 
             foreach (ElevatorFloor floor in Elevator1)
             {
@@ -341,12 +360,12 @@ namespace The_Super_Mario_WannaBe
             }
 
             UpdateElevatorBounds();
-            PojmaNeemKakDaSeVika();
+            base.Update(arrows, space);
         }
 
         private void UpdateElevatorBounds()
         {
-            int counter = 0;
+            int counter = 0; 
             for (int i = 9; i < Boundaries.Count; i++)
             {
                 if (counter <= 3) // elevator 1
@@ -359,45 +378,9 @@ namespace The_Super_Mario_WannaBe
                 }
                 else // elevator 3
                 {
-
                     Boundaries[i] = Elevator3[counter - 8].Bounds;
                 }
                 ++counter;
-            }
-        }
-        
-        // ElevatorFLoor
-        private  void PojmaNeemKakDaSeVika()
-        {
-            // I have no idea what im doin
-            List<ElevatorFloor> allFLoors = new List<ElevatorFloor>();
-
-            foreach (ElevatorFloor floor in Elevator1)
-                allFLoors.Add(floor);
-
-            foreach (ElevatorFloor floor in Elevator2)
-                allFLoors.Add(floor);
-
-            foreach (ElevatorFloor floor in Elevator3)
-                allFLoors.Add(floor);
-
-            foreach (ElevatorFloor floor in allFLoors)
-            {
-                bool StandingOnFloor = ((Hero.Character.Bottom > floor.Bounds.Top - 1 && floor.Bounds.Top - 1 > Hero.Character.Top))
-                    && Hero.Character.IntersectsWith(floor.Bounds);
-
-                bool CheckIfHittingFromAbove = (Hero.Character.Top < floor.Bounds.Bottom + 1 && floor.Bounds.Bottom + 1 < Hero.Character.Bottom); //hit something above
-
-                if (StandingOnFloor && !CheckIfHittingFromAbove) // hero stands above something
-                {
-                    int x = Hero.Character.X;
-                    int y = Hero.Character.Y + floor.Speed;
-                    int width = Hero.Character.Width;
-                    int height = Hero.Character.Height;
-
-                    Hero.Character = new Rectangle(x, y, width, height);
-                    break;
-                }
             }
         }
     }

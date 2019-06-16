@@ -12,37 +12,37 @@ namespace The_Super_Mario_WannaBe
         public Hero Hero { get; set; }
         public List<Rectangle> Boundaries { get; set; }
 
-        public static readonly int jumpSize = 80; //jumpsize;
+        public static readonly int jumpSize = 30; //jumpsize;
         int currentJump = 0;
         bool isDoubleJumping = false;
         abstract public void Draw(Graphics g);
 
-        public bool[] Collisions(Rectangle hero, Rectangle rectangle)
+        public bool[] Collisions(RectangleF hero, Rectangle rectangle)
         {
             bool hitSomethingAbove = false;
             bool hitSomethingBelow = false;
             bool hitSomethingOnTheRight = false;
             bool hitSomethingOnTheLeft = false;
 
-            if (hero.Top < rectangle.Bottom + 1 && rectangle.Bottom + 1 < hero.Bottom) // hero hit something above him
+            if (hero.Top < rectangle.Bottom && rectangle.Bottom < hero.Bottom) // hero hit something above him
             {
                 //se udril od gore(so glavata udril gornio dzid)
                 // veke na gore da ne ode
                 hitSomethingAbove = true;
             }
-            if (hero.Bottom > rectangle.Top - 1 && rectangle.Top - 1 > hero.Top) // hero stands above something
+            if (hero.Bottom > rectangle.Top && rectangle.Top > hero.Top) // hero stands above something
             {
                 //se udril od dole(stoo vrz nesto)
                 // veke na dole da ne ode
                 hitSomethingBelow = true;
             }
-            if (hero.Right > rectangle.Left - 1 && rectangle.Left - 1 > hero.Left) // hero hit something on the right
+            if (hero.Right > rectangle.Left && rectangle.Left > hero.Left) // hero hit something on the right
             {
                 //se udril od desno
                 // veke na desno da ne ode
                 hitSomethingOnTheRight = true;
             }
-            if (hero.Left < rectangle.Right + 1 && rectangle.Right + 1 < hero.Right) // hero hit something on the left
+            if (hero.Left < rectangle.Right && rectangle.Right < hero.Right) // hero hit something on the left
             {
                 //se udril od levo
                 // veke na levo da ne ode
@@ -73,10 +73,6 @@ namespace The_Super_Mario_WannaBe
             {
                 Hero.Fall();
             }
-            if (!HeroIsInAir())
-            {
-                isDoubleJumping = false;
-            }
         }
 
         public void Update(bool[] arrows, bool space)
@@ -84,25 +80,15 @@ namespace The_Super_Mario_WannaBe
             bool leftArrow = arrows[0];
             bool rightArrow = arrows[1];
 
-            if (leftArrow && HeroCanMoveLeft())
-            {
-                Hero.Move(Hero.DIRECTION.Left);
-            }
-            else if (rightArrow && HeroCanMoveRight())
-            {
-                Hero.Move(Hero.DIRECTION.Right);
-            }
-
             if (space)
             {
                 if (!HeroIsInAir())
                 {
                     currentJump = jumpSize;
-                    //isDoubleJumping = false;
                 }
                 else
                 {
-                    if (!isDoubleJumping) // it doesnt work.. why ? | it works.. why?
+                    if (!isDoubleJumping)
                     {
                         currentJump += jumpSize / 2;
                         isDoubleJumping = true;
@@ -112,18 +98,27 @@ namespace The_Super_Mario_WannaBe
 
             if (currentJump > 0)
             {
-                if (!HeroCanMoveUp())
-                {
-                    currentJump = 0;
-                }
-                else
-                {
-                    Hero.Move(Hero.DIRECTION.Up);
-                    --currentJump;
-                }
+                Hero.Move(Hero.DIRECTION.Up);
+                --currentJump;
             }
 
-            GravityPull();
+            // GravityPull(); doesn't work why?
+
+            ValidateVerticalPosition(); // check later..
+            
+            GravityPull(); // works why ?
+
+            if (leftArrow)
+            {
+                Hero.Move(Hero.DIRECTION.Left);
+            }
+            else if (rightArrow)
+            {
+                Hero.Move(Hero.DIRECTION.Right);
+            }
+
+            ValidateHorizontalPosition();
+
         }
 
         private bool HeroCanMoveUp()
@@ -143,7 +138,10 @@ namespace The_Super_Mario_WannaBe
         {
             foreach(Rectangle boundary in Boundaries)
             {
+                // you hit your lowest point
+                // 
                 bool leftCollision = Collisions(Hero.Character, boundary)[3];
+                bool belowCollision = Collisions(Hero.Character, boundary)[1];
                 if (leftCollision && Hero.Character.IntersectsWith(boundary))
                 {
                     return false;
@@ -157,12 +155,63 @@ namespace The_Super_Mario_WannaBe
             foreach (Rectangle boundary in Boundaries)
             {
                 bool rightCollision = Collisions(Hero.Character, boundary)[2];
+                bool belowCollision = Collisions(Hero.Character, boundary)[1];
                 if (rightCollision && Hero.Character.IntersectsWith(boundary))
                 {
                     return false;
                 }
             }
             return true;
+        }
+
+        public void ValidateVerticalPosition()
+        {
+            // if hit od gore (ili dole?) currentJump=0
+            // if hit od dole isDoubleJumping = false
+
+            foreach(Rectangle boundary in Boundaries)
+            {
+                bool collisionAbove = Collisions(Hero.Character, boundary)[0];
+                if (collisionAbove && Hero.Character.IntersectsWith(boundary))
+                {
+                    currentJump = 0;
+                    Hero.Character = new RectangleF(Hero.Character.X, boundary.Bottom + 0.1f, Hero.Character.Width, Hero.Character.Height);
+                    break; // might bug, check out later
+                }
+
+                bool collisionBelow = Collisions(Hero.Character, boundary)[1];
+                if (collisionBelow && Hero.Character.IntersectsWith(boundary))
+                {
+                    isDoubleJumping = false;
+                    Hero.Character = new RectangleF(Hero.Character.X, boundary.Top - 0.5f - Hero.Character.Height, Hero.Character.Width, Hero.Character.Height);
+                    break; // read above
+                }
+            }
+        }
+
+        public void ValidateHorizontalPosition()
+        {
+            foreach (Rectangle boundary in Boundaries)
+            {
+                bool collisionBelow = Collisions(Hero.Character, boundary)[1];
+
+                // !collisionBelow - oti ako stoo na shipkata i izleze na samio rab odma go pomestuva
+                // znaci mora da se provere dali stoo na boundary
+
+                bool collisionRight = Collisions(Hero.Character, boundary)[2];
+                if (collisionRight && Hero.Character.IntersectsWith(boundary) && !collisionBelow)
+                {
+                    Hero.Character = new RectangleF(boundary.Left - 0.1f - Hero.Character.Width, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                    break; // might bug, check out later
+                }
+
+                bool collisionLeft = Collisions(Hero.Character, boundary)[3];
+                if (collisionLeft && Hero.Character.IntersectsWith(boundary) && !collisionBelow)
+                {
+                    Hero.Character = new RectangleF(boundary.Right + 0.1f, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                    break; // read above
+                }
+            }
         }
     }
 }

@@ -16,14 +16,14 @@ namespace The_Super_Mario_WannaBe
             Up,
             None
         }
-        public Rectangle Character { get; set; }
+        public RectangleF Character { get; set; }
         public bool Dead { get; set; }
         public static readonly Image GameOverMessage = Properties.Resources.GameOverMessage;
 
 
         public Hero()
         {
-            Character = new Rectangle((int) (5.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
+            Character = new RectangleF((int) (5.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
             Dead = false;
         }
 
@@ -41,42 +41,42 @@ namespace The_Super_Mario_WannaBe
 
         public void Fall()
         {
-            int y = Character.Y + 1;
-            int x = Character.X;
-            int width = Character.Width;
-            int height = Character.Height;
+            float y = Character.Y + 3.0f;
+            float x = Character.X;
+            float width = Character.Width;
+            float height = Character.Height;
 
-            Character = new Rectangle(x, y, width, height);
+            Character = new RectangleF(x, y, width, height);
         }
         
-        private Rectangle MoveLeft()
+        private RectangleF MoveLeft()
         {
-            int x = Character.X - 1;
-            int y = Character.Y;
-            int width = Character.Width;
-            int height = Character.Height;
+            float x = Character.X - 1.5f;
+            float y = Character.Y;
+            float width = Character.Width;
+            float height = Character.Height;
 
-            return new Rectangle(x, y, width, height);
+            return new RectangleF(x, y, width, height);
         }
 
-        private Rectangle MoveUp()
+        private RectangleF MoveUp()
         {
-            int x = Character.X;
-            int y = Character.Y - 1;
-            int width = Character.Width;
-            int height = Character.Height;
+            float x = Character.X;
+            float y = Character.Y - 3.0f;
+            float width = Character.Width;
+            float height = Character.Height;
 
-            return new Rectangle(x, y, width, height);
+            return new RectangleF(x, y, width, height);
         }
 
-        private Rectangle MoveRight()
+        private RectangleF MoveRight()
         {
-            int x = Character.X + 1;
-            int y = Character.Y;
-            int width = Character.Width;
-            int height = Character.Height;
+            float x = Character.X + 1.5f;
+            float y = Character.Y;
+            float width = Character.Width;
+            float height = Character.Height;
 
-            return new Rectangle(x, y, width, height);
+            return new RectangleF(x, y, width, height);
         }
 
         public void Move(DIRECTION direction)

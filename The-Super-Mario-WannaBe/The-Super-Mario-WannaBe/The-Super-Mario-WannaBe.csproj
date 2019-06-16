@@ -140,5 +140,8 @@
   <ItemGroup>
     <None Include="Resources\shipka.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SingleSpikeUpsideDown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

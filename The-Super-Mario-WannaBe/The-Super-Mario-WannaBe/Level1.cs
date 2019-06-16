@@ -185,8 +185,10 @@ namespace The_Super_Mario_WannaBe
 
             public void Collision(Hero Hero)
             {
-                if (Bounds.IntersectsWith(Hero.Character))
+                if (Hero.Character.IntersectsWith(Bounds))
+                {
                     Hero.Dead = true;
+                }
             }
         }
 

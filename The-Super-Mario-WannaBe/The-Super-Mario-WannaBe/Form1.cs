@@ -24,8 +24,8 @@ namespace The_Super_Mario_WannaBe
         {
             InitializeComponent();
             this.DoubleBuffered = true;
-            //TestLevel1 = new Level1(new Hero());
-            //TestLevel2 = new Level2(new Hero());
+            TestLevel1 = new Level1(new Hero());
+            TestLevel2 = new Level2(new Hero());
             TestLevel3 = new Level3(new Hero());
             arrows = new bool[]{ false, false };
             space = false;
@@ -47,6 +47,12 @@ namespace The_Super_Mario_WannaBe
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.R)
+            {
+                TestLevel3 = new Level3(new Hero());
+            }
+
+
             if (e.KeyCode == Keys.Left)
             {
                 arrows[0] = true;
@@ -81,6 +87,11 @@ namespace The_Super_Mario_WannaBe
                 space = false;
             }
             Invalidate();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
