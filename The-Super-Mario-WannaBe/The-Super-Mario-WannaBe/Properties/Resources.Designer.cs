@@ -183,6 +183,16 @@ namespace The_Super_Mario_WannaBe.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SingleSpike__2_ {
+            get {
+                object obj = ResourceManager.GetObject("SingleSpike__2_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SingleSpikeUpsideDown {
             get {
                 object obj = ResourceManager.GetObject("SingleSpikeUpsideDown", resourceCulture);
@@ -206,6 +216,16 @@ namespace The_Super_Mario_WannaBe.Properties {
         internal static System.Drawing.Bitmap UpRightSpikes {
             get {
                 object obj = ResourceManager.GetObject("UpRightSpikes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UprightSpikeSingle {
+            get {
+                object obj = ResourceManager.GetObject("UprightSpikeSingle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

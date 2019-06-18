@@ -20,7 +20,6 @@ namespace The_Super_Mario_WannaBe
         public bool Dead { get; set; }
         public static readonly Image GameOverMessage = Properties.Resources.GameOverMessage;
 
-
         public Hero()
         {
             Character = new RectangleF((int) (5.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);

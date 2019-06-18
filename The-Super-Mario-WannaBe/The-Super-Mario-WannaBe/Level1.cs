@@ -28,7 +28,6 @@ namespace The_Super_Mario_WannaBe
             public bool ArrivedAtBeginning { get; set; }
             private static readonly Image LeftToRightSpike = Properties.Resources.left_to_right_spike;
             private static readonly Image RightToLeftSpike = Properties.Resources.right_to_left_spike;
-
             public int VerticalBoundary { get; set; }
             public bool Inequality { get; set; }
 
@@ -67,6 +66,8 @@ namespace The_Super_Mario_WannaBe
                     }
                 }
             }
+
+            
 
             private void Activate()
             {

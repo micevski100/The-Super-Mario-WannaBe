@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apple.cs" />
+    <Compile Include="FallingSpike.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +59,7 @@
     <Compile Include="Level1.cs" />
     <Compile Include="Level2.cs" />
     <Compile Include="Level3.cs" />
+    <Compile Include="PeekingSpikes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -142,6 +144,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SingleSpikeUpsideDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UprightSpikes-transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SingleSpike %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UprightSpikeSingle-transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

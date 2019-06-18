@@ -151,9 +151,6 @@
   <data name="tree" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tree_transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UpRightSpikes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UpRightSpikes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="UpsideDownSpikes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UpsideDownSpikes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -165,5 +162,14 @@
   </data>
   <data name="SingleSpikeUpsideDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SingleSpikeUpsideDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SingleSpike__2_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SingleSpike (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UpRightSpikes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UprightSpikes-transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UprightSpikeSingle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UprightSpikeSingle-transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

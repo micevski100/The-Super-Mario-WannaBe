@@ -11,10 +11,9 @@ namespace The_Super_Mario_WannaBe
     {
         public Hero Hero { get; set; }
         public List<Rectangle> Boundaries { get; set; }
-
         public static readonly int jumpSize = 30; //jumpsize;
-        int currentJump = 0;
-        bool isDoubleJumping = false;
+        public int currentJump = 0;
+        public bool isDoubleJumping = false;
         abstract public void Draw(Graphics g);
 
         public bool[] Collisions(RectangleF hero, Rectangle rectangle)

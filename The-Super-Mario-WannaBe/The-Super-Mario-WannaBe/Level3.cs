@@ -9,7 +9,6 @@ namespace The_Super_Mario_WannaBe
 {
     public class Level3 : Level
     {
-
         public class ElevatorFloor
         {
             public enum FloorType
@@ -79,31 +78,27 @@ namespace The_Super_Mario_WannaBe
         public static readonly Image Pole = Properties.Resources.Pole;
         public static readonly int FormHeight = Level2.FormHeight;
         public static readonly int FormWidth = Level2.FormWidth + 1;
-
         public Size SizeOfTrigger = Properties.Resources.SingleSpikeUpsideDown.Size;
-
-        public List<Rectangle> UpsideDownTriggers { get; set; }
-        public List<Rectangle> UpRightTriggers { get; set; }
+        public List<Rectangle> StaticSpikes { get; set; }
         public List<ElevatorFloor> Elevator1 { get; set; }
         public List<ElevatorFloor> Elevator2 { get; set; }
         public List<ElevatorFloor> Elevator3 { get; set; }
         public Rectangle UpsideDownSpikesBounds { get; set; }
         public Rectangle UpRightSpikesBounds { get; set; }
 
-        public bool c { get; set; }
-        public int check { get; set; }
+        public List<FallingSpike> FallingSpikes { get; set; }
+
+        /* we do smart things in the most stupid way possible - mantra*/
 
         public List<Rectangle> Poles { get; set; }
         public Random RandomFloorGenerator { get; set; } // za inicijalni pozicii na floors vo ramki na eden elevator
 
+        public List<PeekingSpikes> peekingSpikes { get; set; }
+
         public Level3(Hero Hero)
         {
-            c = true;
-            check = 0;
-
             Boundaries = new List<Rectangle>();
-            UpsideDownTriggers = new List<Rectangle>();
-            UpRightTriggers = new List<Rectangle>();
+            StaticSpikes = new List<Rectangle>();
             Poles = new List<Rectangle>();
             InitializeBounds();
             InitializePoles();
@@ -119,8 +114,29 @@ namespace The_Super_Mario_WannaBe
 
             InitializeTriggers();
 
+            InitializeFallingSpikes();
+            InitializePeekingSpikes();
+
             this.Hero = Hero;
             this.Hero.Character = new RectangleF(FormWidth - GenericBlock1.Width, 7 * GenericBlock1.Height, Hero.Character.Width, Hero.Character.Height);
+        }
+
+        private void InitializeFallingSpikes()
+        {
+            FallingSpikes = new List<FallingSpike>();
+
+            FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 6 * GenericBlock1.Width - 7, GenericBlock1.Height, Poles[2], FallingSpike.Type.GoingDown));
+
+            Rectangle Trigger = new Rectangle(Poles[1].X + 10, Poles[1].Y, 6 * Poles[1].Width, Poles[1].Height);
+
+            FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 14 * GenericBlock1.Width - 4, GenericBlock1.Height, Trigger, FallingSpike.Type.GoingDown));
+            FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 13 * GenericBlock1.Width - 4, GenericBlock1.Height, Trigger, FallingSpike.Type.GoingDown));
+            FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 12 * GenericBlock1.Width - 4, GenericBlock1.Height, Trigger, FallingSpike.Type.GoingDown));
+
+            //surprise madafaka
+            FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 5 * GenericBlock1.Width + 1, Level3.FormHeight - 2 * GenericBlock1.Height, Poles[2], FallingSpike.Type.GoingUp));
+            FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 7 * GenericBlock1.Width + 1, Level3.FormHeight - 2 * GenericBlock1.Height, Poles[2], FallingSpike.Type.GoingUp));
+
         }
 
         public void InitializeBounds()
@@ -210,26 +226,21 @@ namespace The_Super_Mario_WannaBe
 
         public void InitializeTriggers()
         {
-            //UpsideDown triggers
+            //UpsideDown Triggers
             for (int i = UpsideDownSpikesBounds.X + 6; i < UpsideDownSpikesBounds.X + UpsideDownSpikesBounds.Width; i += GenericBlock1.Width)
             {
-                UpsideDownTriggers.Add(new Rectangle(i, UpsideDownSpikesBounds.Y, 8, 24));
+                StaticSpikes.Add(new Rectangle(i, UpsideDownSpikesBounds.Y, 8, 24));
             }
 
-            UpsideDownTriggers.Add(new Rectangle(UpsideDownSpikesBounds.X, UpsideDownSpikesBounds.Y, UpsideDownSpikesBounds.Width - 10, UpsideDownSpikesBounds.Height / 4));
+            StaticSpikes.Add(new Rectangle(UpsideDownSpikesBounds.X, UpsideDownSpikesBounds.Y, UpsideDownSpikesBounds.Width - 10, UpsideDownSpikesBounds.Height / 4));
 
-            //UpRight triggers
-            /*for (int i = UpRightSpikesBounds.X + 11; i < UpRightSpikesBounds.X + UpRightSpikesBounds.Width; i += GenericBlock1.Width + 2)
+            // Upright Triggers
+            for (int i = UpRightSpikesBounds.X + 10; i < UpRightSpikesBounds.Right; i += GenericBlock1.Width)
             {
-                UpRightTriggers.Add(new Rectangle(i, UpRightSpikesBounds.Y, 10, 24));
-            }*/
-
-            for (int i = UpRightSpikesBounds.X; i < UpRightSpikesBounds.Right; i += GenericBlock1.Width)
-            {
-                UpRightTriggers.Add(new Rectangle(i, UpRightSpikesBounds.Y, 10, 24));
+                StaticSpikes.Add(new Rectangle(i, UpRightSpikesBounds.Y, 10, 24));
             }
 
-            UpRightTriggers.Add(new Rectangle(UpRightSpikesBounds.X, UpRightSpikesBounds.Bottom - 8, UpRightSpikesBounds.Width - 2, UpRightSpikesBounds.Height / 4));
+            StaticSpikes.Add(new Rectangle(UpRightSpikesBounds.X, UpRightSpikesBounds.Bottom - 14, UpRightSpikesBounds.Width - 2, UpRightSpikesBounds.Height / 4));
         }
 
         private void InitializePoles()
@@ -237,7 +248,6 @@ namespace The_Super_Mario_WannaBe
             Poles.Add(new Rectangle(5 * GenericBlock1.Width + 10, GenericBlock1.Height, Pole.Width, FormHeight - 2 * GenericBlock1.Height));
             Poles.Add(new Rectangle(12 * GenericBlock1.Width + 8, GenericBlock1.Height, Pole.Width, FormHeight - 2 * GenericBlock1.Height));
             Poles.Add(new Rectangle(19 * GenericBlock1.Width + 6, GenericBlock1.Height, Pole.Width, FormHeight - 2 * GenericBlock1.Height));
-
         }
 
         private void DrawPoles(Graphics g)
@@ -311,6 +321,7 @@ namespace The_Super_Mario_WannaBe
 
         public override void Draw(Graphics g)
         {
+            DrawPeekingSpikes(g);
             DrawPoles(g);
             DrawRightWall(g);
             DrawLeftWall(g);
@@ -334,11 +345,17 @@ namespace The_Super_Mario_WannaBe
                 floor.Draw(g);
             }
 
+            // How much wood would a wood chuck chuck if a would chuck could chuck wood?
+            //    - Answer correct: +15pts
+            foreach(FallingSpike fallingSpike in FallingSpikes)
+            {
+                fallingSpike.Draw(g);
+            }
+
             Hero.Draw(g);
 
-            g.DrawRectangles(new Pen(new SolidBrush(Color.Red)), UpsideDownTriggers.ToArray());
-
-            g.DrawRectangles(new Pen(new SolidBrush(Color.Red)), UpRightTriggers.ToArray());
+            //Rectangle Trigger = new Rectangle(Poles[1].X + 10, Poles[1].Y, 6 * Poles[1].Width, Poles[1].Height);
+            //g.DrawRectangle(new Pen(new SolidBrush(Color.Blue)), Trigger);
 
         }
 
@@ -360,7 +377,22 @@ namespace The_Super_Mario_WannaBe
             }
 
             UpdateElevatorBounds();
+            UpdateFallingSpikes();
+            CheckCollisionWithStaticSpikes();
+            UpdatePeekingSpikes();
             base.Update(arrows, space);
+        }
+
+        private void CheckCollisionWithStaticSpikes()
+        {
+            foreach (Rectangle staticSpike in StaticSpikes)
+            {
+                if (Hero.Character.IntersectsWith(staticSpike))
+                {
+                    Hero.Dead = true;
+                    break;
+                }
+            }
         }
 
         private void UpdateElevatorBounds()
@@ -381,6 +413,53 @@ namespace The_Super_Mario_WannaBe
                     Boundaries[i] = Elevator3[counter - 8].Bounds;
                 }
                 ++counter;
+            }
+        }
+
+        private void UpdateFallingSpikes()
+        {
+            foreach(FallingSpike fallingSpike in FallingSpikes)
+            {
+                fallingSpike.Update(this.Hero);
+            }
+            DeleteUnnecessarySpikes();
+        }
+
+        private void UpdatePeekingSpikes()
+        {
+            foreach(PeekingSpikes spike in peekingSpikes)
+            {
+                spike.Update(this.Hero);
+            }
+        }
+
+        private void DeleteUnnecessarySpikes()
+        {
+            for (int i = 0; i < FallingSpikes.Count; i++)
+            {
+                FallingSpikes[i].CheckSpikePosition();
+                if (!FallingSpikes[i].InForm)
+                {
+                    FallingSpikes.RemoveAt(i);
+                    --i;
+                }
+            }
+        }
+
+        private void InitializePeekingSpikes()
+        {
+            peekingSpikes = new List<PeekingSpikes>();
+
+            Rectangle Trigger1 = new Rectangle(GenericBlock1.Width + 17, 4 * GenericBlock1.Height, 35, 120);
+            peekingSpikes.Add(new PeekingSpikes(0, 8 * GenericBlock1.Height, Trigger1));
+            peekingSpikes.Add(new PeekingSpikes(GenericBlock1.Width, 8 * GenericBlock1.Height, Trigger1));
+        }
+
+        private void DrawPeekingSpikes(Graphics g)
+        {
+            foreach(PeekingSpikes spike in peekingSpikes)
+            {
+                spike.Draw(g);
             }
         }
     }
