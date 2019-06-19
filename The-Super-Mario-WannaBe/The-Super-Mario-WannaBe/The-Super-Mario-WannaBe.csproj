@@ -59,6 +59,7 @@
     <Compile Include="Level1.cs" />
     <Compile Include="Level2.cs" />
     <Compile Include="Level3.cs" />
+    <Compile Include="Level5.cs" />
     <Compile Include="PeekingSpikes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +154,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\UprightSpikeSingle-transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Water.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
