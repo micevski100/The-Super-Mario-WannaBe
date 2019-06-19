@@ -153,6 +153,16 @@ namespace The_Super_Mario_WannaBe.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LeftToRightHorizontalSpike {
+            get {
+                object obj = ResourceManager.GetObject("LeftToRightHorizontalSpike", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MovingFloor {
             get {
                 object obj = ResourceManager.GetObject("MovingFloor", resourceCulture);
@@ -176,6 +186,16 @@ namespace The_Super_Mario_WannaBe.Properties {
         internal static System.Drawing.Bitmap right_to_left_spike {
             get {
                 object obj = ResourceManager.GetObject("right_to_left_spike", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RightToLeftHorizontalSpike {
+            get {
+                object obj = ResourceManager.GetObject("RightToLeftHorizontalSpike", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -226,6 +246,16 @@ namespace The_Super_Mario_WannaBe.Properties {
         internal static System.Drawing.Bitmap UprightSpikeSingle {
             get {
                 object obj = ResourceManager.GetObject("UprightSpikeSingle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UpRightSpikesLevel4 {
+            get {
+                object obj = ResourceManager.GetObject("UpRightSpikesLevel4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
