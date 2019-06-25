@@ -39,12 +39,13 @@ namespace The_Super_Mario_WannaBe
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.LightBlue);
+            //e.Graphics.Clear(Color.Black);
             TestLevel5.Draw(e.Graphics);
         }
 
         private void GravityTimer_Tick(object sender, EventArgs e)
         {
-            //TestLevel5.Update(arrows, spacePress);
+            TestLevel5.Update(arrows, spacePress);
             Invalidate();
             spacePress = false;
         }
@@ -53,7 +54,7 @@ namespace The_Super_Mario_WannaBe
         {
             if (e.KeyCode == Keys.R)
             {
-                TestLevel3 = new Level3(new Hero());
+                TestLevel5 = new Level5(new Hero());
             }
 
 
