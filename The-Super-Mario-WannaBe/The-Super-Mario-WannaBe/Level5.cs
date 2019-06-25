@@ -51,8 +51,11 @@ namespace The_Super_Mario_WannaBe
 
             public void Draw(Graphics g)
             {
+                //g.DrawImage(GenericLightning, Bounds);
+                //g.FillRectangle(new SolidBrush(Color.Red), Trigger);
                 if (IsActive && InForm)
                 {
+                    
                     g.DrawImage(GenericLightning, Bounds);
                 }
             }
@@ -69,7 +72,7 @@ namespace The_Super_Mario_WannaBe
             {
                 if (IsActive)
                 {
-                    Bounds = new Rectangle(Bounds.X, Bounds.Y + 1, Bounds.Width, Bounds.Height);
+                    Bounds = new Rectangle(Bounds.X, Bounds.Y + 2, Bounds.Width, Bounds.Height);
                 }
             }
         }
@@ -99,7 +102,9 @@ namespace The_Super_Mario_WannaBe
             InitializeSpikes();
             InitializeApples();
 
-            lightning = new Lightning(11 * GenericBlock1.Width - 12, 5 * GenericBlock1.Height);
+            lightning = new Lightning(11 * GenericBlock1.Width, 5 * GenericBlock1.Height);
+            lightning.Trigger = new Rectangle(lightning.Bounds.X + 15, lightning.Bounds.Y + 15, lightning.Bounds.Width / 3, 5 * GenericBlock1.Height + 15);
+
 
 
             this.jumpSize = 35;
@@ -404,6 +409,7 @@ namespace The_Super_Mario_WannaBe
             DrawStaticSpikes(g);
 
             Hero.Draw(g);
+
             lightning.Draw(g);
         }
 
@@ -428,8 +434,9 @@ namespace The_Super_Mario_WannaBe
                 apple.Update(Hero);
             }
 
-            CheckCollisionWithStaticSpikes();
+            //CheckCollisionWithStaticSpikes();
             UpdateFallingSpikes();
+            lightning.Update(Hero);
             base.Update(arrows, space);
         }
 
