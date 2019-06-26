@@ -19,7 +19,7 @@ namespace The_Super_Mario_WannaBe
 
             public Lightning(int x, int y)
             {
-                Bounds = new Rectangle(x, y, GenericLightning.Width, GenericLightning.Height);
+                Bounds = new Rectangle(x, y, GenericLightning.Width / 2, GenericLightning.Height / 2);
                 this.Trigger = Trigger;
                 IsActive = false;
                 InForm = true;
@@ -51,28 +51,28 @@ namespace The_Super_Mario_WannaBe
 
             public void Draw(Graphics g)
             {
-                //g.DrawImage(GenericLightning, Bounds);
-                //g.FillRectangle(new SolidBrush(Color.Red), Trigger);
                 if (IsActive && InForm)
                 {
-                    
                     g.DrawImage(GenericLightning, Bounds);
                 }
             }
 
             public void Update(Hero hero)
             {
-                CheckTriggerArea(hero);
-                MoveDown();
-                CheckHeroCollision(hero);
-                CheckIfInForm();
+                if (InForm)
+                {
+                    CheckTriggerArea(hero);
+                    MoveDown();
+                    CheckHeroCollision(hero);
+                    CheckIfInForm();
+                }
             }
 
             private void MoveDown()
             {
                 if (IsActive)
                 {
-                    Bounds = new Rectangle(Bounds.X, Bounds.Y + 2, Bounds.Width, Bounds.Height);
+                    Bounds = new Rectangle(Bounds.X, Bounds.Y + 6, Bounds.Width, Bounds.Height);
                 }
             }
         }
@@ -102,10 +102,8 @@ namespace The_Super_Mario_WannaBe
             InitializeSpikes();
             InitializeApples();
 
-            lightning = new Lightning(11 * GenericBlock1.Width, 5 * GenericBlock1.Height);
-            lightning.Trigger = new Rectangle(lightning.Bounds.X + 15, lightning.Bounds.Y + 15, lightning.Bounds.Width / 3, 5 * GenericBlock1.Height + 15);
-
-
+            lightning = new Lightning(11 * GenericBlock1.Width + 5, 5 * GenericBlock1.Height);
+            lightning.Trigger = new Rectangle(lightning.Bounds.X + 10, lightning.Bounds.Y + 15, lightning.Bounds.Width / 3, 5 * GenericBlock1.Height + 15);
 
             this.jumpSize = 35;
             this.Hero.Character = new RectangleF(GenericBlock1.Width, 8 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
@@ -434,7 +432,7 @@ namespace The_Super_Mario_WannaBe
                 apple.Update(Hero);
             }
 
-            //CheckCollisionWithStaticSpikes();
+            CheckCollisionWithStaticSpikes();
             UpdateFallingSpikes();
             lightning.Update(Hero);
             base.Update(arrows, space);
