@@ -92,7 +92,7 @@ namespace The_Super_Mario_WannaBe
         public List<Rectangle> Trees { get; set; }
         public List<FallingSpike> FallingSpikes { get; set; }
         public List<Rectangle> StaticSpikes { get; set; }
-        public Lightning lightning;
+        public Lightning lightning { get; set; }
 
         public Level5(Hero hero)
         {
