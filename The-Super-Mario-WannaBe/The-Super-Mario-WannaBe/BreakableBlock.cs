@@ -37,10 +37,18 @@ namespace The_Super_Mario_WannaBe
                 SpinningRate = (float)(rand.NextDouble() * 360);
             }
             Position = new Point(Bounds.X, Bounds.Y);
-            Random r = new Random();
+            Random r = rand;
             double Angle = r.NextDouble() * 2 * Math.PI;
             VelocityX = (float)(Math.Cos(Angle) * 10);
             VelocityY = (float)(Math.Sin(Angle) * 10);
+
+            NewImage = new Bitmap(Image);
+        }
+
+        public void ChangeBitmap(Image Image)
+        {
+            NewImage = new Bitmap(Image);
+            this.Image = Image;
         }
 
         private void CheckPosition()
@@ -51,16 +59,18 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        private void CheckMoonCollision(Moon moon)
+        public void CheckMoonCollision(Moon moon)
         {
-            //to-do
+            if (moon.Intersects(Bounds))
+            {
+                IsActive = true;
+            }
         }
 
-        public void Update(Hero hero)
+        public void Update()
         {
-            //unfinished
-            CheckPosition();
             Move();
+            CheckPosition();
         }
 
         private void Move()
@@ -70,12 +80,14 @@ namespace The_Super_Mario_WannaBe
                 Position = new Point((int)(Position.X + VelocityX), (int)(Position.Y + VelocityY));
                 NewImage = Level6.RotateImage(Image, SpinningRate, true, false, Color.Transparent);
                 SpinningRate += SpinningRate;
+                SpinningRate %= 360;
             }
         }
 
         public void Draw(Graphics g)
         {
-            if (IsActive && InForm)
+            //if (IsActive && InForm)
+            if (InForm)
             {
                 g.DrawImage(NewImage, Position);
             }

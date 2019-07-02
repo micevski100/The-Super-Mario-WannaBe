@@ -23,29 +23,60 @@ namespace The_Super_Mario_WannaBe
         public List<Rectangle> Clouds { get; set; }
         public List<Rectangle> StaticSpikes { get; set; }
         public List<Apple> Apples { get; set; }
+        public List<BreakableBlock> BreakableBlocks { get; set; }
 
-        public Image GenericBlock2 { get; set; }
-        public Bitmap NewImage { get; set; }
-        public float spinner { get; set; }
         public Moon moon { get; set; }
+        public bool[] drawableBlocks { get; set; }
 
         public Level6(Hero hero)
         {
             this.Hero = hero;
-            this.moon = new Moon(new Point(FormWidth - 100, -50));
+            this.moon = new Moon(new Point(FormWidth - 185, -200));
             this.Hero.Character = new RectangleF(10, 12 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
             InitializeBoundaries();
             InitializeTrees();
             InitializeClouds();
             InitializeStaticSpikes();
             InitializeApples();
+            InitializeBreakableBlocks();
+            drawableBlocks = new bool[BreakableBlocks.Count];
 
-            spinner = 0;
 
-            Bitmap tmp = new Bitmap(GenericBlock1);
-            //NewImage = RotateImage(tmp, 45.0f);
+            for (int i = 0; i < BreakableBlocks.Count; i++)
+            {
+                drawableBlocks[i] = true;
+            }
+        }
 
-            NewImage = RotateImage(GenericBlock1, spinner, true, false, Color.Transparent);
+        private void InitializeBreakableBlocks()
+        {
+            BreakableBlocks = new List<BreakableBlock>();
+
+            for (int i = 7; i < Boundaries.Count; i++)
+            {
+                BreakableBlocks.Add(new BreakableBlock(Boundaries[i], GenericBlockGrass));
+            }
+
+            SetImages();
+        }
+
+        
+        private void UpdateBreakableBlocks()
+        {
+            for (int i = 0; i < BreakableBlocks.Count; i++)
+            {
+                BreakableBlocks[i].CheckMoonCollision(moon);
+                if (BreakableBlocks[i].IsActive && Boundaries.Contains(BreakableBlocks[i].Bounds))
+                {
+                    Boundaries.Remove(BreakableBlocks[i].Bounds);
+                }
+            }
+
+            foreach(BreakableBlock bb in BreakableBlocks)
+            {
+                bb.CheckMoonCollision(moon);
+                bb.Update();
+            }
         }
 
         // taken/stolen from stackoverflow
@@ -277,83 +308,112 @@ namespace The_Super_Mario_WannaBe
 
         private void DrawBreakableBlocks(Graphics g)
         {
-            g.DrawImage(GenericBlockGrass, Boundaries[7]);
+            foreach (BreakableBlock bb in BreakableBlocks)
+            {
+                bb.Draw(g);
+            }
+        }
+
+        private void SetImages()
+        {
+            //g.DrawImage(GenericBlockGrass, Boundaries[7]);
+            BreakableBlocks[0].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 8; i < 12; i++)
             {
-                g.DrawImage(GenericBlock1, Boundaries[i]);
+                //g.DrawImage(GenericBlock1, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 12; i < 24; i++)
             {
-                g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
-            g.DrawImage(GenericBlock1, Boundaries[24]);
+            //g.DrawImage(GenericBlock1, Boundaries[24]);
+            BreakableBlocks[17].ChangeBitmap(GenericBlock1);
 
-            g.DrawImage(GenericBlockGrass, Boundaries[25]);
+            //g.DrawImage(GenericBlockGrass, Boundaries[25]);
+            BreakableBlocks[18].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 26; i < 33; i++)
             {
-                g.DrawImage(GenericBlock1, Boundaries[i]);
+                //g.DrawImage(GenericBlock1, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 33; i < 36; i++)
             {
-                g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 36; i < 44; i++)
             {
-                g.DrawImage(GenericBlock1, Boundaries[i]);
+                //g.DrawImage(GenericBlock1, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
-            g.DrawImage(GenericBlockGrass, Boundaries[44]);
+            //g.DrawImage(GenericBlockGrass, Boundaries[44]);
+            BreakableBlocks[37].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 45; i < 48; i++)
             {
-                g.DrawImage(GenericBlock1, Boundaries[i]);
+                //g.DrawImage(GenericBlock1, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 48; i < 50; i++)
             {
-                g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
-            g.DrawImage(GenericBlock1, Boundaries[50]);
+            //g.DrawImage(GenericBlock1, Boundaries[50]);
+            BreakableBlocks[43].ChangeBitmap(GenericBlock1);
 
-            g.DrawImage(GenericBlockGrass, Boundaries[51]);
+            //g.DrawImage(GenericBlockGrass, Boundaries[51]);
+            BreakableBlocks[44].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 52; i < 58; i++)
             {
-                g.DrawImage(GenericBlock1, Boundaries[i]);
+                //g.DrawImage(GenericBlock1, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 58; i < 63; i++)
             {
-                g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
             for (int i = 63; i < 66; i++)
             {
-                g.DrawImage(GenericBlock1, Boundaries[i]);
+                //g.DrawImage(GenericBlock1, Boundaries[i]);
+                BreakableBlocks[43].ChangeBitmap(GenericBlock1);
             }
 
-            g.DrawImage(GenericBlockGrass, Boundaries[66]);
+            //g.DrawImage(GenericBlockGrass, Boundaries[66]);
+            BreakableBlocks[59].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 67; i < 69; i++)
             {
-                g.DrawImage(GenericBlock1, Boundaries[i]);
+                //g.DrawImage(GenericBlock1, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 69; i < 71; i++)
             {
-                g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
+                BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
-            g.DrawImage(GenericBlock1, Boundaries[71]);
+            //g.DrawImage(GenericBlock1, Boundaries[71]);
+            BreakableBlocks[64].ChangeBitmap(GenericBlock1);
 
-            g.DrawImage(GenericBlockGrass, Boundaries[72]);
+            //g.DrawImage(GenericBlockGrass, Boundaries[72]);
+            BreakableBlocks[65].ChangeBitmap(GenericBlockGrass);
         }
 
         private void DrawSolidBlocks(Graphics g)
@@ -415,18 +475,12 @@ namespace The_Super_Mario_WannaBe
 
         public override void Draw(Graphics g)
         {
-            
-            //g.FillRectangles(new SolidBrush(Color.Black), Boundaries.ToArray());
             DrawBackground(g);
             Hero.Draw(g);
-
-            //g.DrawImage(GenericBlock2, Boundaries[Boundaries.Count - 1]);
-            NewImage = RotateImage(GenericBlock1, ++spinner, true, false, Color.Transparent);
-
-            //Rectangle tmp = new Rectangle(Boundaries[Boundaries.Count - 1].X, Boundaries[Boundaries.Count - 1].Y, 50, 50);
-            g.DrawImage(NewImage, new Point(2 * GenericBlock1.Width, 2 * GenericBlock1.Height));
-            //g.DrawImage(NewImage, new Rectangle(2 * GenericBlock1.Width, 2 * GenericBlock1.Height, GenericBlock1.Width, GenericBlock1.Height));
             moon.Draw(g);
+
+            //g.DrawLine(new Pen(new SolidBrush(Color.Blue)), new Point(Level6.FormWidth - 7 * Level6.GenericBlock1.Width, 100),
+            //    new Point(Level6.FormWidth - 7 * Level6.GenericBlock1.Width, 400));
         }
 
         public new void Update(bool[] arrows, bool space)
@@ -439,7 +493,8 @@ namespace The_Super_Mario_WannaBe
             }
 
             CheckCollisionWithStaticSpikes();
-            moon.Move();
+            moon.Move(Boundaries, Hero);
+            UpdateBreakableBlocks();
             base.Update(arrows, space);
         }
 

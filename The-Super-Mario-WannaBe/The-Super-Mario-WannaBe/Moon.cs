@@ -12,66 +12,122 @@ namespace The_Super_Mario_WannaBe
         public static Image Image = Properties.Resources.Moon;
         public Point Center { get; set; }
         public static int Radius;
-        public float Speed { get; set; }
-        public static int Floor;
-        public static int LeftWall;
-        public static int RightWall;
+        public float Spin { get; set; }
         public bool hitFloor;
         public bool hitLeftWall;
+        public bool hitLeftWall1;
+        public int LeftWall { get; set; }
+        public bool IsActive { get; set; }
+
+        public Bitmap NewImage { get; set; }
 
         public Moon(Point Center)
         {
             this.Center = Center;
-            Radius = 15;
-            Speed = 15;
-
-            Floor = Level6.FormHeight - 15 * Level6.GenericBlock1.Height;
-            LeftWall = 0;
-            RightWall = Level6.FormWidth - Level6.GenericBlock1.Width;
+            Radius = Image.Size.Width / 2;
+            Spin = 1f;
+            LeftWall = Radius + 40;
             hitFloor = false;
             hitLeftWall = false;
+            hitLeftWall1 = false;
+            IsActive = false;
+
+            NewImage = new Bitmap(Image);
+        }
+
+        private void CheckTrigger(Hero hero)
+        {
+            if ( hero.Character.X > Level6.FormWidth - 7 * Level6.GenericBlock1.Width)
+            {
+                IsActive = true;
+            }
+        }
+
+        private void MoveUpLeft()
+        {
+            if (Center.X < 0)
+            {
+                hitLeftWall1 = true;
+            }
+            else
+            {
+                Center = new Point(Center.X - 1, Center.Y - 3);
+            }
         }
 
         private void MoveLeft()
         {
             // to do
-            Center = new Point(Center.X - 1, Center.Y);
+            if (Center.X < LeftWall)
+            {
+                hitLeftWall = true;
+            }
+            else
+            {
+                Center = new Point(Center.X - 1, Center.Y);
+            }
         }
 
-        private void MoveDown()
+        private void MoveDown(List<Rectangle> Boundaries)
         {
-            // to do
-            Center = new Point(Center.X, Center.Y + 1);
+            bool flag = false;
+            for (int i = 0; i < 7; i++)
+            {
+                if (Intersects(Boundaries[i]))
+                {
+                    flag = true;
+                    hitFloor = true;
+                    break;
+                }
+            }
+
+            if (!flag)
+            {
+                Center = new Point(Center.X, Center.Y + 5);
+            }
         }
 
         private void MoveUpRight()
         {
-            Center = new Point(Center.X + 2, Center.Y - 1);
-        }
-
-        public void Move()
-        {
-            if (Center.Y + Radius >= Floor && !hitFloor)
+            if (Center.X > Level6.FormWidth - 40)
             {
-                hitFloor = true;
-            }
-
-            if (Center.X - Radius <= LeftWall && !hitLeftWall)
-            {
-                hitLeftWall = true;
-            }
-
-            if (!hitFloor)
-            {
-                MoveDown();
-            }
-            else if (!hitLeftWall)
-            {
-                MoveLeft();
+                hitFloor = false;
+                hitLeftWall = false;
+                hitLeftWall1 = false;
             }
             else
-                MoveUpRight();
+            {
+                Center = new Point(Center.X + 10, Center.Y - 1);
+            }
+        }
 
+        public void Move(List<Rectangle> Boundaries, Hero hero)
+        {
+            CheckTrigger(hero);
+            if (IsActive)
+            {
+                if (!hitLeftWall1)
+                {
+                    MoveDown(Boundaries);
+                }
+
+                if (hitFloor)
+                {
+                    MoveLeft();
+                }
+
+                if (hitLeftWall)
+                {
+                    MoveUpLeft();
+                }
+
+                if (hitLeftWall1)
+                {
+                    MoveUpRight();
+                }
+
+                CheckHeroPosition(hero);
+            }
         }
 
         private double Distance(Point p1, Point p2)
@@ -79,13 +135,13 @@ namespace The_Super_Mario_WannaBe
             return Math.Sqrt((p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y));
         }
 
-        // may work idk
-        bool intersects(RectangleF rect)
+        public bool Intersects(RectangleF rectangle)
         {
-            Point circleDistance = new Point();
-            
-            circleDistance.X = (int)Math.Abs(Center.X - rect.X);
-            circleDistance.Y = (int)Math.Abs(Center.Y - rect.Y);
+            PointF circleDistance = new PointF();
+            RectangleF rect = new RectangleF(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Height / 2, rectangle.Width, rectangle.Height);
+
+            circleDistance.X = Math.Abs(Center.X - rect.X);
+            circleDistance.Y = Math.Abs(Center.Y - rect.Y);
 
             if (circleDistance.X > (rect.Width / 2 + Radius)) { return false; }
             if (circleDistance.Y > (rect.Height / 2 + Radius)) { return false; }
@@ -93,17 +149,29 @@ namespace The_Super_Mario_WannaBe
             if (circleDistance.X <= (rect.Width / 2)) { return true; }
             if (circleDistance.Y <= (rect.Height / 2)) { return true; }
 
-            int cornerDistance_sq = (int)((circleDistance.X - rect.Width / 2) * (circleDistance.X - rect.Width / 2) +
-                                 (circleDistance.Y - rect.Height / 2) * (circleDistance.Y - rect.Height / 2) );
+            float cornerDistance_sq = ((circleDistance.X - rect.Width / 2) * (circleDistance.X - rect.Width / 2) +
+                                 (circleDistance.Y - rect.Height / 2) * (circleDistance.Y - rect.Height / 2));
 
-            return (cornerDistance_sq <= (Radius * Radius));
+            return cornerDistance_sq <= (Radius * Radius);
+        }
+
+        private void CheckHeroPosition(Hero hero)
+        {
+            if (Intersects(hero.Character))
+            {
+                hero.Dead = true;
+            }
         }
 
         public void Draw(Graphics g)
         {
-            int x = Center.X - Radius;
-            int y = Center.Y - Radius;
-            g.DrawImage(Image, new Point(x, y));
+            if (IsActive)
+            {
+                int x = Center.X - Radius;
+                int y = Center.Y - Radius;
+                g.DrawImage(NewImage, new Point(x, y));
+                NewImage = Level6.RotateImage(Image, Spin += 5, false, true, Color.Transparent);
+            }
         }
     }
 }
