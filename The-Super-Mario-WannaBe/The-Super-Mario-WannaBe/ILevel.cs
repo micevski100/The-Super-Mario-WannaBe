@@ -113,11 +113,9 @@ namespace The_Super_Mario_WannaBe
                 --currentJump;
             }
 
-            // GravityPull(); doesn't work why?
-
-            ValidateVerticalPosition(); // check later..
+            ValidateVerticalPosition();
             
-            GravityPull(); // works why ?
+            GravityPull();
 
             if (leftArrow)
             {
@@ -140,54 +138,8 @@ namespace The_Super_Mario_WannaBe
 
         public abstract int ChangeLevel();
 
-        private bool HeroCanMoveUp()
-        {
-            foreach (Rectangle boundary in Boundaries)
-            {
-                bool collisionAbove = Collisions(Hero.Character, boundary)[0];
-                if (collisionAbove && Hero.Character.IntersectsWith(boundary))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private bool HeroCanMoveLeft()
-        {
-            foreach(Rectangle boundary in Boundaries)
-            {
-                // you hit your lowest point
-                // 
-                bool leftCollision = Collisions(Hero.Character, boundary)[3];
-                bool belowCollision = Collisions(Hero.Character, boundary)[1];
-                if (leftCollision && Hero.Character.IntersectsWith(boundary))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private bool HeroCanMoveRight()
-        {
-            foreach (Rectangle boundary in Boundaries)
-            {
-                bool rightCollision = Collisions(Hero.Character, boundary)[2];
-                bool belowCollision = Collisions(Hero.Character, boundary)[1];
-                if (rightCollision && Hero.Character.IntersectsWith(boundary))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         public void ValidateVerticalPosition()
         {
-            // if hit od gore (ili dole?) currentJump=0
-            // if hit od dole isDoubleJumping = false
-
             foreach(Rectangle boundary in Boundaries)
             {
                 bool collisionAbove = Collisions(Hero.Character, boundary)[0];
@@ -195,7 +147,7 @@ namespace The_Super_Mario_WannaBe
                 {
                     currentJump = 0;
                     Hero.Character = new RectangleF(Hero.Character.X, boundary.Bottom + 0.1f, Hero.Character.Width, Hero.Character.Height);
-                    break; // might bug, check out later
+                    break;
                 }
 
                 bool collisionBelow = Collisions(Hero.Character, boundary)[1];
@@ -203,7 +155,7 @@ namespace The_Super_Mario_WannaBe
                 {
                     isDoubleJumping = false;
                     Hero.Character = new RectangleF(Hero.Character.X, boundary.Top - 0.5f - Hero.Character.Height, Hero.Character.Width, Hero.Character.Height);
-                    break; // read above
+                    break;
                 }
             }
         }
@@ -214,21 +166,18 @@ namespace The_Super_Mario_WannaBe
             {
                 bool collisionBelow = Collisions(Hero.Character, boundary)[1];
 
-                // !collisionBelow - oti ako stoo na shipkata i izleze na samio rab odma go pomestuva
-                // znaci mora da se provere dali stoo na boundary
-
                 bool collisionRight = Collisions(Hero.Character, boundary)[2];
                 if (collisionRight && Hero.Character.IntersectsWith(boundary) && !collisionBelow)
                 {
                     Hero.Character = new RectangleF(boundary.Left - 0.1f - Hero.Character.Width, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
-                    break; // might bug, check out later
+                    break;
                 }
 
                 bool collisionLeft = Collisions(Hero.Character, boundary)[3];
                 if (collisionLeft && Hero.Character.IntersectsWith(boundary) && !collisionBelow)
                 {
                     Hero.Character = new RectangleF(boundary.Right + 0.1f, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
-                    break; // read above
+                    break;
                 }
             }
         }
