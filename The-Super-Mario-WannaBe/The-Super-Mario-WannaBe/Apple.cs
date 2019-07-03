@@ -40,6 +40,7 @@ namespace The_Super_Mario_WannaBe
 
         public void Draw(Graphics g)
         {
+            g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), TriggerArea);
             g.DrawImage(GenericApple, Bounds);
         }
 

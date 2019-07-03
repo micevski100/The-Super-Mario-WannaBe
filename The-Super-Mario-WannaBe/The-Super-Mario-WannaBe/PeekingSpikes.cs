@@ -25,7 +25,7 @@ namespace The_Super_Mario_WannaBe
             this.Trigger = Trigger;
             IsActive = false;
             Tick = 0;
-            WaitTime = 100; // 10ms * 100 = 1 sec
+            WaitTime = 100;
             PeekSize = ReturnSize = 30;
             IsCycleFinished = false;
         }
@@ -62,7 +62,7 @@ namespace The_Super_Mario_WannaBe
                     }
                     else
                     {
-                        if (Tick >= WaitTime && ReturnSize > 0) //ak si pocekal 2 sekundi pocni da se dvizas nadole
+                        if (Tick >= WaitTime && ReturnSize > 0)
                         {
                             MoveDown();
                             --ReturnSize;
@@ -88,18 +88,15 @@ namespace The_Super_Mario_WannaBe
 
         public void Draw(Graphics g)
         {
-            //g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), Trigger);
             if (!IsCycleFinished && IsActive)
             {
                 g.DrawImage(Spike, Bounds);
-                //g.DrawRectangle(new Pen(new SolidBrush(Color.Blue)), Bounds);
-                //g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), Trigger);
             }
         }
 
         private void CheckCollisionWithHero(Hero hero)
         {
-            if (hero.Character.IntersectsWith(Bounds))
+            if (!IsCycleFinished && hero.Character.IntersectsWith(Bounds))
             {
                 hero.Dead = true;
             }

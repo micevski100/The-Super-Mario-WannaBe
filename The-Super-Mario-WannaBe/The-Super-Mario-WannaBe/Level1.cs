@@ -30,6 +30,7 @@ namespace The_Super_Mario_WannaBe
             private static readonly Image RightToLeftSpike = Properties.Resources.right_to_left_spike;
             public int VerticalBoundary { get; set; }
             public bool Inequality { get; set; }
+            public int Timer { get; set; }
 
             public Spike(Rectangle Start, Rectangle End, int TopBoundary, int LowBoundary, TypeOfSpike Type, int VerticalBoundary, bool Inequality)
             {
@@ -44,6 +45,7 @@ namespace The_Super_Mario_WannaBe
                 ArrivedAtBeginning = false;
                 this.VerticalBoundary = VerticalBoundary;
                 this.Inequality = Inequality;
+                Timer = 0;
             }
 
             private void CheckHeroPosition(Hero Hero) // heroIsInPosition bool
@@ -67,8 +69,6 @@ namespace The_Super_Mario_WannaBe
                 }
             }
 
-            
-
             private void Activate()
             {
                 IsActive = true;
@@ -80,7 +80,9 @@ namespace The_Super_Mario_WannaBe
                 {
                     IsActive = false;
                     ArrivedAtDestination = false;
+                    Timer = 0;
                 }
+
             }
 
             public void Spawn(Hero Hero)
@@ -88,9 +90,16 @@ namespace The_Super_Mario_WannaBe
                 CheckHeroPosition(Hero);
                 if (IsActive)
                 {
-                    Move();
+                    Timer++;
+                    if( Timer >= 100)
+                    {
+                        Move();
+                    }
                 }
-                Deactivate();
+                if (Timer >= 100)
+                {
+                    Deactivate();
+                }
             }
 
             public void Move()
@@ -131,7 +140,7 @@ namespace The_Super_Mario_WannaBe
 
             public void Draw(Graphics g)
             {
-                if (IsActive)
+                if (IsActive && Timer >= 100)
                 {
                     if (Type == TypeOfSpike.LeftToRight)
                     {

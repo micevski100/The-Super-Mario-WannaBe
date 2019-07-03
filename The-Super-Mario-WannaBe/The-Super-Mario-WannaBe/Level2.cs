@@ -45,12 +45,12 @@ namespace The_Super_Mario_WannaBe
             Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 5, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 5, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[5].Bounds.Left, 0, Apple.GenericApple.Width, Apples[3].Bounds.Top - 10));
-            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 5, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
-            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 5, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 10, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 10, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[8].Bounds.Left, 0, Apple.GenericApple.Width, Apples[6].Bounds.Top - 20));
-            Triggers.Add(new Rectangle(Apples[9].Bounds.Right - 5, Apples[9].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[9].Bounds.Top));
-            Triggers.Add(new Rectangle(Triggers[9].Right - 10, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
-            Triggers.Add(new Rectangle(Triggers[9].Right - 10, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
+            Triggers.Add(new Rectangle(Apples[9].Bounds.Right - 2, Apples[9].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[9].Bounds.Top));
+            Triggers.Add(new Rectangle(Triggers[9].Right - 5, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
+            Triggers.Add(new Rectangle(Triggers[9].Right - 5, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
             Triggers.Add(new Rectangle(Apples[12].Bounds.Left, 0, Apple.GenericApple.Width, Apples[12].Bounds.Bottom));
             Triggers.Add(new Rectangle(Apples[13].Bounds.Left - 6, Apples[13].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[13].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[14].Bounds.Left - 2, 0, Apple.GenericApple.Width, Apples[13].Bounds.Top - 1));

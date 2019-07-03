@@ -354,9 +354,6 @@ namespace The_Super_Mario_WannaBe
 
             Hero.Draw(g);
 
-            //Rectangle Trigger = new Rectangle(Poles[1].X + 10, Poles[1].Y, 6 * Poles[1].Width, Poles[1].Height);
-            //g.DrawRectangle(new Pen(new SolidBrush(Color.Blue)), Trigger);
-
         }
 
         public new void Update(bool[] arrows, bool space)
