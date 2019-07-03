@@ -19,6 +19,7 @@ namespace The_Super_Mario_WannaBe
         public Level1 TestLevel1 { get; set; }
         public Level2 TestLevel2 { get; set; }
         public Level3 TestLevel3 { get; set; }
+        public Level4 TestLevel4 { get; set; }
 
         public Form1()
         {
@@ -27,6 +28,9 @@ namespace The_Super_Mario_WannaBe
             TestLevel1 = new Level1(new Hero());
             TestLevel2 = new Level2(new Hero());
             TestLevel3 = new Level3(new Hero());
+            TestLevel4 = new Level4(new Hero());
+
+
             arrows = new bool[]{ false, false };
             space = false;
             spacePress = false;
@@ -35,12 +39,12 @@ namespace The_Super_Mario_WannaBe
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.LightBlue);
-            TestLevel1.Draw(e.Graphics);
+            TestLevel4.Draw(e.Graphics);
         }
 
         private void GravityTimer_Tick(object sender, EventArgs e)
         {
-            TestLevel1.Update(arrows, spacePress);
+            TestLevel4.Update(arrows, spacePress);
             Invalidate();
             spacePress = false;
         }
@@ -51,8 +55,6 @@ namespace The_Super_Mario_WannaBe
             {
                 TestLevel1 = new Level1(new Hero());
             }
-
-
             if (e.KeyCode == Keys.Left)
             {
                 arrows[0] = true;

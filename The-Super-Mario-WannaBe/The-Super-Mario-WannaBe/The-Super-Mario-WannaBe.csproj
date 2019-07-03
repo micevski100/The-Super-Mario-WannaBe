@@ -59,6 +59,7 @@
     <Compile Include="Level1.cs" />
     <Compile Include="Level2.cs" />
     <Compile Include="Level3.cs" />
+    <Compile Include="Level4.cs" />
     <Compile Include="PeekingSpikes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +154,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\UprightSpikeSingle-transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftToRightSpike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightToleftSpike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UpRightSpikesLeve4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftToRightHorizontalSpike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightToLeftHorizontalSpike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UpRightSpikesLevel4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
