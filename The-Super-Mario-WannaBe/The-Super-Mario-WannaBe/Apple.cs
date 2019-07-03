@@ -31,7 +31,6 @@ namespace The_Super_Mario_WannaBe
 
         private void CheckTriggerArea(Hero Hero)
         {
-            //if (TriggerArea.IntersectsWith(Hero.Character))
             if (Hero.Character.IntersectsWith(TriggerArea))
             {
                 IsActive = true;
@@ -39,7 +38,7 @@ namespace The_Super_Mario_WannaBe
         }
 
         public void Draw(Graphics g)
-        {
+        { 
             g.DrawImage(GenericApple, Bounds);
         }
 

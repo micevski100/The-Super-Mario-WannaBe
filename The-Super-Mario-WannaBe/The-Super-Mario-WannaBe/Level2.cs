@@ -34,7 +34,6 @@ namespace The_Super_Mario_WannaBe
             InitializeTriggers();
             this.Hero = hero;
 
-            //this.Hero.Character = new RectangleF(this.Hero.Character.X, FormHeight - 2 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
         }
 
         private void InitializeTriggers()
@@ -44,15 +43,15 @@ namespace The_Super_Mario_WannaBe
             Triggers.Add(new Rectangle(Apples[0].Bounds.Left, 0, Apple.GenericApple.Width, Apples[0].Bounds.Top - 2 * GenericBlock1.Height));
             Triggers.Add(new Rectangle(Apples[1].Bounds.Left, Apples[1].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[1].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[2].Bounds.Left - 5, 0, Apple.GenericApple.Width, Apples[2].Bounds.Top));
-            Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 5, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
-            Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 5, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 14, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[3].Bounds.Right - 14, Apples[3].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[3].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[5].Bounds.Left, 0, Apple.GenericApple.Width, Apples[3].Bounds.Top - 10));
-            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 10, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
-            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 10, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 15, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
+            Triggers.Add(new Rectangle(Apples[6].Bounds.Right - 15, Apples[6].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[6].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[8].Bounds.Left, 0, Apple.GenericApple.Width, Apples[6].Bounds.Top - 20));
-            Triggers.Add(new Rectangle(Apples[9].Bounds.Right - 2, Apples[9].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[9].Bounds.Top));
-            Triggers.Add(new Rectangle(Triggers[9].Right - 5, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
-            Triggers.Add(new Rectangle(Triggers[9].Right - 5, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
+            Triggers.Add(new Rectangle(Apples[9].Bounds.Left - 5, Apples[9].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[9].Bounds.Top));
+            Triggers.Add(new Rectangle(Triggers[9].Right + 2, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
+            Triggers.Add(new Rectangle(Triggers[9].Right + 2, Triggers[9].Y, Apple.GenericApple.Width, Triggers[9].Height));
             Triggers.Add(new Rectangle(Apples[12].Bounds.Left, 0, Apple.GenericApple.Width, Apples[12].Bounds.Bottom));
             Triggers.Add(new Rectangle(Apples[13].Bounds.Left - 6, Apples[13].Bounds.Top, Apple.GenericApple.Width, FormHeight - Apples[13].Bounds.Top));
             Triggers.Add(new Rectangle(Apples[14].Bounds.Left - 2, 0, Apple.GenericApple.Width, Apples[13].Bounds.Top - 1));
@@ -130,7 +129,7 @@ namespace The_Super_Mario_WannaBe
             // blocks in the air, from right to left
             Boundaries.Add(new Rectangle(23 * GenericBlock1.Width, FormHeight - 7 * GenericBlock1.Height, GenericBlock1.Width, GenericBlock1.Height));
 
-            Boundaries.Add(new Rectangle(20 * GenericBlock1.Width, FormHeight - 8 * GenericBlock1.Height, 2 * GenericBlock1.Width, GenericBlock1.Height));
+            Boundaries.Add(new Rectangle(20 * GenericBlock1.Width, FormHeight - 8 * GenericBlock1.Height, GenericBlock1.Width, GenericBlock1.Height));
 
             Boundaries.Add(new Rectangle(17 * GenericBlock1.Width, FormHeight - 9 * GenericBlock1.Height, 2 * GenericBlock1.Width, GenericBlock1.Height));
 

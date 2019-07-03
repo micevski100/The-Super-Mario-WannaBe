@@ -361,11 +361,11 @@ namespace The_Super_Mario_WannaBe
 
             foreach (ElevatorFloor floor in Elevator1)
             {
-                //floor.Move();
+                floor.Move();
             }
             foreach(ElevatorFloor floor in Elevator3)
             {
-                //floor.Move();
+                floor.Move();
             }
 
             foreach(ElevatorFloor floor in Elevator2)
@@ -374,9 +374,9 @@ namespace The_Super_Mario_WannaBe
             }
 
             UpdateElevatorBounds();
-            //UpdateFallingSpikes();
-            //CheckCollisionWithStaticSpikes();
-            //UpdatePeekingSpikes();
+            UpdateFallingSpikes();
+            CheckCollisionWithStaticSpikes();
+            UpdatePeekingSpikes();
             base.Update(arrows, space);
         }
 

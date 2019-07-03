@@ -184,5 +184,71 @@
   <ItemGroup>
     <None Include="Resources\Moon-transparent.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jumping1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jumping2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jumping1r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jumping2r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running1r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running2r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running3r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running4r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running5r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing1r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing2r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing3r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing4r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\running5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

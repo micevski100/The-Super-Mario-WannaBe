@@ -63,7 +63,16 @@ namespace The_Super_Mario_WannaBe
                     return false;
                 }
             }
+
             return true;
+        }
+
+        private void check()
+        {
+            if (HeroIsInAir())
+                Hero.OnGround = false;
+            else
+                Hero.OnGround = true;
         }
 
         public void GravityPull()
@@ -76,8 +85,10 @@ namespace The_Super_Mario_WannaBe
 
         public virtual void Update(bool[] arrows, bool space)
         {
+            bool moved = false;
             bool leftArrow = arrows[0];
             bool rightArrow = arrows[1];
+            check();
 
             if (space)
             {
@@ -97,6 +108,7 @@ namespace The_Super_Mario_WannaBe
 
             if (currentJump > 0)
             {
+                moved = true;
                 Hero.Move(Hero.DIRECTION.Up);
                 --currentJump;
             }
@@ -109,11 +121,17 @@ namespace The_Super_Mario_WannaBe
 
             if (leftArrow)
             {
+                moved = true;
                 Hero.Move(Hero.DIRECTION.Left);
             }
             else if (rightArrow)
             {
+                moved = true;
                 Hero.Move(Hero.DIRECTION.Right);
+            }
+            if (!moved)
+            {
+                Hero.ResetFrame();
             }
 
             ValidateHorizontalPosition();

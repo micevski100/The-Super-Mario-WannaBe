@@ -19,18 +19,104 @@ namespace The_Super_Mario_WannaBe
         public RectangleF Character { get; set; }
         public bool Dead { get; set; }
         public static readonly Image GameOverMessage = Properties.Resources.GameOverMessage;
+        public List<Image> StandingLeftFrames { get; set; }
+        public List<Image> StandingRightFrames { get; set; }
+        public List<Image> RunningLeftFrames { get; set; }
+        public List<Image> RunningRightFrames { get; set; }
+        public List<Image> JumpingLeftFrames { get; set; }
+        public List<Image> JumpingRightFrames { get; set; }
+
+        public int CurrentStandingFrame { get; set; }
+        public int CurrentJumpingFrame { get; set; }
+        public int CurrentRunningFrame { get; set; }
+
+        public Image CurrentFrame { get; set; }
+        public bool OnGround { get; set; }
+        public DIRECTION PreviousFrame { get; set; }
+        private readonly int framesBeforeChange = 5;
+
 
         public Hero()
         {
-            Character = new RectangleF((int) (4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
+            Character = new RectangleF((int) (4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width/2, Level1.GenericBlock1.Height/2);
             Dead = false;
+
+            CurrentFrame = Properties.Resources.standing1r;
+            PreviousFrame = DIRECTION.Right;
+
+            InitializeStandingLeftFrames();
+            InitializeStandingRightFrames();
+
+            InitializeJumpingLeftFrames();
+            InitializeJumpingRightFrames();
+
+            InitializeRunningLeftFrames();
+            InitializeRunningRightFrames();
+        }
+
+        private void InitializeStandingLeftFrames()
+        {
+            StandingLeftFrames = new List<Image>();
+
+            StandingLeftFrames.Add(Properties.Resources.standing1);
+            StandingLeftFrames.Add(Properties.Resources.standing1);
+            StandingLeftFrames.Add(Properties.Resources.standing2);
+            StandingLeftFrames.Add(Properties.Resources.standing4);
+        }
+
+        private void InitializeStandingRightFrames()
+        {
+            StandingRightFrames = new List<Image>();
+
+            StandingRightFrames.Add(Properties.Resources.standing1r);
+            StandingRightFrames.Add(Properties.Resources.standing2r);
+            StandingRightFrames.Add(Properties.Resources.standing3r);
+            StandingRightFrames.Add(Properties.Resources.standing4r);
+        }
+
+        private void InitializeRunningLeftFrames()
+        {
+            RunningLeftFrames = new List<Image>();
+
+            RunningLeftFrames.Add(Properties.Resources.running1);
+            RunningLeftFrames.Add(Properties.Resources.running2);
+            RunningLeftFrames.Add(Properties.Resources.running3);
+            RunningLeftFrames.Add(Properties.Resources.running4);
+            RunningLeftFrames.Add(Properties.Resources.running5);
+        }
+
+        private void InitializeRunningRightFrames()
+        {
+            RunningRightFrames = new List<Image>();
+
+            RunningRightFrames.Add(Properties.Resources.running1r);
+            RunningRightFrames.Add(Properties.Resources.running2r);
+            RunningRightFrames.Add(Properties.Resources.running3r);
+            RunningRightFrames.Add(Properties.Resources.running4r);
+            RunningRightFrames.Add(Properties.Resources.running5r);
+        }
+
+        private void InitializeJumpingLeftFrames()
+        {
+            JumpingLeftFrames = new List<Image>();
+
+            JumpingLeftFrames.Add(Properties.Resources.jumping1);
+            JumpingLeftFrames.Add(Properties.Resources.jumping2);
+        }
+
+        private void InitializeJumpingRightFrames()
+        {
+            JumpingRightFrames = new List<Image>();
+
+            JumpingRightFrames.Add(Properties.Resources.jumping1r);
+            JumpingRightFrames.Add(Properties.Resources.jumping2r);
         }
 
         public void Draw(Graphics g)
         {
             if (!Dead)
             {
-                g.FillRectangle(new SolidBrush(Color.Black), Character);
+                g.DrawImage(CurrentFrame, Character);
             }
             else
             {
@@ -82,16 +168,64 @@ namespace The_Super_Mario_WannaBe
         {
             if (direction.Equals(DIRECTION.Left))
             {
+                if (OnGround)
+                {
+                    CurrentFrame = RunningLeftFrames[CurrentRunningFrame / framesBeforeChange];
+                    ++CurrentRunningFrame;
+                    CurrentRunningFrame %= 5 * framesBeforeChange;
+                }
                 Character = MoveLeft();
+                PreviousFrame = DIRECTION.Left;
             }
+            
             if (direction.Equals(DIRECTION.Right))
             {
+                if (OnGround)
+                {
+                    CurrentFrame = RunningRightFrames[CurrentRunningFrame / framesBeforeChange];
+                    ++CurrentRunningFrame;
+                    CurrentRunningFrame %= 5 * framesBeforeChange;
+                }
                 Character = MoveRight();
+                PreviousFrame = DIRECTION.Right;
             }
+
             if (direction.Equals(DIRECTION.Up))
             {
+                if (PreviousFrame == DIRECTION.Left)
+                {
+                    CurrentFrame = JumpingLeftFrames[CurrentJumpingFrame / framesBeforeChange];
+                    ++CurrentJumpingFrame;
+                    //PreviousFrame = DIRECTION.Left;
+                    CurrentJumpingFrame %= 2 * framesBeforeChange;
+                }
+                else
+                {
+                    CurrentFrame = JumpingRightFrames[CurrentJumpingFrame / framesBeforeChange];
+                    ++CurrentJumpingFrame;
+                    //PreviousFrame = DIRECTION.Right;
+                    CurrentJumpingFrame %= 2 * framesBeforeChange;
+                }
                 Character = MoveUp();
             }
+        }
+
+        public void ResetFrame()
+        {
+            if (PreviousFrame == DIRECTION.Right)
+            {
+                CurrentFrame = StandingRightFrames[CurrentStandingFrame / framesBeforeChange];
+                ++CurrentStandingFrame;
+            }
+            else if (PreviousFrame == DIRECTION.Left)
+            {
+                CurrentFrame = StandingLeftFrames[CurrentStandingFrame / framesBeforeChange];
+                ++CurrentStandingFrame;
+            }
+
+            CurrentStandingFrame %= 4 * framesBeforeChange;
+            CurrentRunningFrame = 0;
+            CurrentJumpingFrame = 0;
         }
     }
 }

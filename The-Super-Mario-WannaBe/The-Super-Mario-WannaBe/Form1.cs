@@ -94,7 +94,7 @@ namespace The_Super_Mario_WannaBe
                 CurrentLevel.Hero.Dead = false;
                 if (restartAt == 1 || restartAt == 4)
                 {
-                    CurrentLevel.Hero.Character = new RectangleF((int)(4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
+                    CurrentLevel.Hero.Character = new RectangleF((int)(4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, CurrentLevel.Hero.Character.Width, CurrentLevel.Hero.Character.Height);
                     CurrentLevel = new Level1(CurrentLevel.Hero);
                 }
                 else if (restartAt == 2)
