@@ -32,7 +32,7 @@ namespace The_Super_Mario_WannaBe
         {
             this.Hero = hero;
             this.moon = new Moon(new Point(FormWidth - 185, -200));
-            this.Hero.Character = new RectangleF(10, 12 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
+            //this.Hero.Character = new RectangleF(10, 12 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
             InitializeBoundaries();
             InitializeTrees();
             InitializeClouds();
@@ -483,7 +483,7 @@ namespace The_Super_Mario_WannaBe
             //    new Point(Level6.FormWidth - 7 * Level6.GenericBlock1.Width, 400));
         }
 
-        public new void Update(bool[] arrows, bool space)
+        public override void Update(bool[] arrows, bool space)
         {
             DeleteUnnecessaryApples();
             foreach (Apple apple in Apples)
@@ -520,6 +520,20 @@ namespace The_Super_Mario_WannaBe
                     break;
                 }
             }
+        }
+
+        public override int ChangeLevel()
+        {
+            if (Hero.Character.X < 0)
+            {
+                this.Hero.Character = new RectangleF(FormWidth - GenericBlock1.Width / 2, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                return 5;
+            }
+            else if (Hero.Character.X > FormWidth)
+            {
+                return 4;
+            }
+            return -1;
         }
     }
 }

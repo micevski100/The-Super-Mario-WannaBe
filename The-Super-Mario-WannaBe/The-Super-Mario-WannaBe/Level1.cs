@@ -215,6 +215,7 @@ namespace The_Super_Mario_WannaBe
             InitializeList();
             InitializeSpikes();
             this.Hero = hero;
+            //this.Hero.Character = new RectangleF(this.Hero.Character.X, 1, this.Hero.Character.Width, this.Hero.Character.Height);
         }
 
         private void InitializeSpikes()
@@ -243,7 +244,7 @@ namespace The_Super_Mario_WannaBe
 
             // adding cellings
             Boundaries.Add(new Rectangle(GenericBlock1.Width, 0, 2 * GenericBlock1.Width, GenericBlock1.Height)); // top-left ceiling
-            Boundaries.Add(new Rectangle(7 * GenericBlock1.Width, 0, 17 * GenericBlock1.Width, GenericBlock1.Height)); // top-right ceiling
+            Boundaries.Add(new Rectangle(6 * GenericBlock1.Width, 0, 18 * GenericBlock1.Width, GenericBlock1.Height)); // top-right ceiling
 
             // adding first floor
             Boundaries.Add(new Rectangle(GenericBlock1.Width, 3 * GenericBlock1.Height, 17 * GenericBlock1.Width, GenericBlock1.Height));// left-side
@@ -327,10 +328,39 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public new void Update(bool[] arrows, bool space)
+        public override void Update(bool[] arrows, bool space)
         {
             base.Update(arrows, space);
             UpdateSpikes();
+        }
+        
+        public override int ChangeLevel()
+        {
+            // Switch to level 2
+            if (Hero.Character.Y < 0)
+            {
+                this.Hero.Character = new RectangleF(this.Hero.Character.X, FormHeight - 2 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
+                return 2;
+            }
+            // Switch to level 3
+            else if (Hero.Character.Y > 4 * GenericBlock1.Height && Hero.Character.Y < 7 * GenericBlock1.Height && Hero.Character.X < GenericBlock1.Width + 5 && Spikes[0].IsActive)
+            {
+                this.Hero.Character = new RectangleF(FormWidth - GenericBlock1.Width + 25, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                return 3;
+            }
+            // Switch to level 4
+            else if ( Hero.Character.Y > FormHeight)
+            {
+                return 4;
+            }
+            // Switch to level 5
+            else if (Hero.Character.Y > 8 * GenericBlock1.Height && Hero.Character.Y < 11 * GenericBlock1.Height && Hero.Character.X > FormWidth - GenericBlock1.Width - 20)
+            {
+                this.Hero.Character = new RectangleF(0, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                return 5;
+            }
+
+            return -1;
         }
     }
 }

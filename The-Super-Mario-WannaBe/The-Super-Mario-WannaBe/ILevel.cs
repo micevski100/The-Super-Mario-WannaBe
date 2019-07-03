@@ -74,7 +74,7 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public void Update(bool[] arrows, bool space)
+        public virtual void Update(bool[] arrows, bool space)
         {
             bool leftArrow = arrows[0];
             bool rightArrow = arrows[1];
@@ -119,6 +119,8 @@ namespace The_Super_Mario_WannaBe
             ValidateHorizontalPosition();
 
         }
+
+        public abstract int ChangeLevel();
 
         private bool HeroCanMoveUp()
         {

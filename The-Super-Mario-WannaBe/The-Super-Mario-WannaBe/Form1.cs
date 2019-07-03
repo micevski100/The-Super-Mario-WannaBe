@@ -16,47 +16,102 @@ namespace The_Super_Mario_WannaBe
         public bool[] arrows;
         public bool space;
         public bool spacePress;
-        public Level1 TestLevel1 { get; set; }
-        public Level2 TestLevel2 { get; set; }
-        public Level3 TestLevel3 { get; set; }
-        public Level4 TestLevel4 { get; set; }
-        public Level5 TestLevel5 { get; set; }
-        public Level6 TestLevel6 { get; set; }
+        public Level CurrentLevel { get; set; }
+        public int restartAt { get; set; }
+
+
 
         public Form1()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
-            TestLevel1 = new Level1(new Hero());
-            TestLevel2 = new Level2(new Hero());
-            TestLevel3 = new Level3(new Hero());
-            TestLevel4 = new Level4(new Hero());
-            TestLevel5 = new Level5(new Hero());
-            TestLevel6 = new Level6(new Hero());
+            CurrentLevel = new Level1(new Hero());
 
             arrows = new bool[]{ false, false };
             space = false;
             spacePress = false;
+            restartAt = 1;
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.LightBlue);
-            TestLevel1.Draw(e.Graphics);
+            CurrentLevel.Draw(e.Graphics);
+        }
+
+        private void ChangeLevel()
+        {
+            int nextLevel = CurrentLevel.ChangeLevel();
+
+            if (nextLevel == -1)
+            {
+                return;
+            }
+            else if (nextLevel == 1)
+            {
+                CurrentLevel = new Level1(CurrentLevel.Hero);
+                restartAt = 1;
+            }
+            else if (nextLevel == 2)
+            {
+                CurrentLevel = new Level2(CurrentLevel.Hero);
+                restartAt = 2;
+            }
+            else if (nextLevel == 3)
+            {
+                CurrentLevel = new Level3(CurrentLevel.Hero);
+                restartAt = 3;
+            }
+            else if (nextLevel == 4)
+            {
+                CurrentLevel = new Level4(CurrentLevel.Hero);
+                restartAt = 4;
+            }
+            else if (nextLevel == 5)
+            {
+                CurrentLevel = new Level5(CurrentLevel.Hero);
+                restartAt = 5;
+            }
+            else if (nextLevel == 6)
+            {
+                CurrentLevel = new Level6(CurrentLevel.Hero);
+                restartAt = 6;
+            }
         }
 
         private void GravityTimer_Tick(object sender, EventArgs e)
         {
-            TestLevel1.Update(arrows, spacePress);
+            CurrentLevel.Update(arrows, spacePress);
             Invalidate();
             spacePress = false;
+            ChangeLevel();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.R)
             {
-                TestLevel1 = new Level1(new Hero());
+                CurrentLevel.Hero.Dead = false;
+                if (restartAt == 1 || restartAt == 4)
+                {
+                    CurrentLevel.Hero.Character = new RectangleF((int)(4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
+                    CurrentLevel = new Level1(CurrentLevel.Hero);
+                }
+                else if (restartAt == 2)
+                {
+                    CurrentLevel.Hero.Character = new RectangleF(6 * Level2.GenericBlock1.Width, Level2.FormHeight - 2 * Level2.GenericBlock1.Height, CurrentLevel.Hero.Character.Width, CurrentLevel.Hero.Character.Height);
+                    CurrentLevel = new Level2(CurrentLevel.Hero);
+                }
+                else if (restartAt == 3)
+                {
+                    CurrentLevel.Hero.Character = new RectangleF(Level3.FormWidth - Level3.GenericBlock1.Width, 6 * Level3.GenericBlock1.Height, CurrentLevel.Hero.Character.Width, CurrentLevel.Hero.Character.Height);
+                    CurrentLevel = new Level3(CurrentLevel.Hero);
+                }
+                else if (restartAt == 5 || restartAt == 6)
+                {
+                    CurrentLevel.Hero.Character = new RectangleF(Level5.GenericBlock1.Width, 9 * Level5.GenericBlock1.Height, CurrentLevel.Hero.Character.Width, CurrentLevel.Hero.Character.Height);
+                    CurrentLevel = new Level5(CurrentLevel.Hero);
+                }
             }
             if (e.KeyCode == Keys.Left)
             {
@@ -92,11 +147,6 @@ namespace The_Super_Mario_WannaBe
                 space = false;
             }
             Invalidate();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -106,8 +106,6 @@ namespace The_Super_Mario_WannaBe
             lightning.Trigger = new Rectangle(lightning.Bounds.X + 10, lightning.Bounds.Y + 15, lightning.Bounds.Width / 3, 5 * GenericBlock1.Height + 15);
 
             this.jumpSize = 35;
-            this.Hero.Character = new RectangleF(GenericBlock1.Width, 8 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
-
         }
 
         private void InitializeApples()
@@ -423,7 +421,7 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public new void Update(bool[] arrows, bool space)
+        public override void Update(bool[] arrows, bool space)
         {
             DeleteUnnecessaryApples();
             foreach (Apple apple in Apples)
@@ -470,6 +468,21 @@ namespace The_Super_Mario_WannaBe
                     break;
                 }
             }
+        }
+
+        public override int ChangeLevel()
+        {
+            if (Hero.Character.X < 0)
+            {
+                this.Hero.Character = new RectangleF(FormWidth - 2 * GenericBlock1.Width, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                return 1;
+            }
+            else if (Hero.Character.X > FormWidth)
+            {
+                this.Hero.Character = new RectangleF(1, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                return 6;
+            }
+            return -1;
         }
     }
 }

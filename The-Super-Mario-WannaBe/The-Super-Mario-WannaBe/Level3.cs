@@ -118,7 +118,7 @@ namespace The_Super_Mario_WannaBe
             InitializePeekingSpikes();
 
             this.Hero = Hero;
-            this.Hero.Character = new RectangleF(FormWidth - GenericBlock1.Width, 7 * GenericBlock1.Height, Hero.Character.Width, Hero.Character.Height);
+            //this.Hero.Character = new RectangleF(FormWidth - 1, 7 * GenericBlock1.Height, Hero.Character.Width, Hero.Character.Height);
         }
 
         private void InitializeFallingSpikes()
@@ -148,8 +148,8 @@ namespace The_Super_Mario_WannaBe
             Boundaries.Add(new Rectangle(0, FormHeight - GenericBlock1.Height, 25 * GenericBlock1.Width, GenericBlock1.Height));
 
             // Adding RightWall
-            Boundaries.Add(new Rectangle(FormWidth - GenericBlock1.Width, FormHeight - 10 * GenericBlock1.Height, GenericBlock1.Width, 10 * GenericBlock1.Height));
-            Boundaries.Add(new Rectangle(FormWidth - 2 * GenericBlock1.Width, FormHeight - 11 * GenericBlock1.Height, 2 * GenericBlock1.Width, GenericBlock1.Height));
+            Boundaries.Add(new Rectangle(FormWidth - GenericBlock1.Width, FormHeight - 11 * GenericBlock1.Height, GenericBlock1.Width, 11 * GenericBlock1.Height));
+            Boundaries.Add(new Rectangle(FormWidth - 2 * GenericBlock1.Width, FormHeight - 12 * GenericBlock1.Height, 2 * GenericBlock1.Width, GenericBlock1.Height));
             Boundaries.Add(new Rectangle(FormWidth - GenericBlock1.Width, GenericBlock1.Height, GenericBlock1.Width, 3 * GenericBlock1.Height));
             Boundaries.Add(new Rectangle(FormWidth - 2 * GenericBlock1.Width, GenericBlock1.Height, GenericBlock1.Width, GenericBlock1.Height));
 
@@ -298,7 +298,7 @@ namespace The_Super_Mario_WannaBe
                 g.DrawImage(GenericBlock2, new Rectangle(i + Boundaries[3].X, Boundaries[3].Y, GenericBlock1.Width, GenericBlock1.Height));
             }
 
-            for (int i = 9 * GenericBlock1.Height; i < Boundaries[2].Height + 9 * GenericBlock1.Height; i += GenericBlock1.Height)
+            for (int i = 8 * GenericBlock1.Height; i < Boundaries[2].Height + 8 * GenericBlock1.Height; i += GenericBlock1.Height)
             {
                 g.DrawImage(GenericBlock1, new Rectangle(Boundaries[2].X, i, GenericBlock1.Width, GenericBlock1.Height));
             }
@@ -356,16 +356,16 @@ namespace The_Super_Mario_WannaBe
 
         }
 
-        public new void Update(bool[] arrows, bool space)
+        public override void Update(bool[] arrows, bool space)
         {
 
             foreach (ElevatorFloor floor in Elevator1)
             {
-                floor.Move();
+                //floor.Move();
             }
             foreach(ElevatorFloor floor in Elevator3)
             {
-                floor.Move();
+                //floor.Move();
             }
 
             foreach(ElevatorFloor floor in Elevator2)
@@ -374,9 +374,9 @@ namespace The_Super_Mario_WannaBe
             }
 
             UpdateElevatorBounds();
-            UpdateFallingSpikes();
-            CheckCollisionWithStaticSpikes();
-            UpdatePeekingSpikes();
+            //UpdateFallingSpikes();
+            //CheckCollisionWithStaticSpikes();
+            //UpdatePeekingSpikes();
             base.Update(arrows, space);
         }
 
@@ -458,6 +458,22 @@ namespace The_Super_Mario_WannaBe
             {
                 spike.Draw(g);
             }
+        }
+
+        public override int ChangeLevel()
+        {
+            if (Hero.Character.X > FormWidth)
+            {
+                Hero.Character = new RectangleF(GenericBlock1.Width + Hero.Character.Width, Hero.Character.Y, Hero.Character.Width, Hero.Character.Height);
+                return 1;
+            }
+            else if (Hero.Character.X < 0)
+            {
+                Hero.Character = new RectangleF(GenericBlock1.Width, Hero.Character.Y + 3 * GenericBlock1.Height, Hero.Character.Width, Hero.Character.Height);
+                return 5;
+            }
+
+            return -1;
         }
     }
 }

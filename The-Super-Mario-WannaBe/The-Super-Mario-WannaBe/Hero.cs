@@ -22,7 +22,7 @@ namespace The_Super_Mario_WannaBe
 
         public Hero()
         {
-            Character = new RectangleF((int) (5.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
+            Character = new RectangleF((int) (4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
             Dead = false;
         }
 

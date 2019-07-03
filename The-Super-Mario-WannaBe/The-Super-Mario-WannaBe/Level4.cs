@@ -164,7 +164,7 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public new void Update(bool[] arrows, bool space)
+        public override void Update(bool[] arrows, bool space)
         {
             base.Update(arrows, space);
             CheckCollisionWithStaticSpikes();
@@ -202,6 +202,11 @@ namespace The_Super_Mario_WannaBe
             DrawLeftWallSpikes(g);
             DrawBottomSpikes(g);
             DrawRightWallSpikes(g);
+        }
+
+        public override int ChangeLevel()
+        {
+            return -1;
         }
     }
 }

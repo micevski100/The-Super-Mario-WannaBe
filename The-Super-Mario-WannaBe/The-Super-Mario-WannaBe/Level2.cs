@@ -33,6 +33,8 @@ namespace The_Super_Mario_WannaBe
             InitializeApples();
             InitializeTriggers();
             this.Hero = hero;
+
+            //this.Hero.Character = new RectangleF(this.Hero.Character.X, FormHeight - 2 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
         }
 
         private void InitializeTriggers()
@@ -254,7 +256,7 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public new void Update(bool[] arrows, bool space)
+        public override void Update(bool[] arrows, bool space)
         {
             base.Update(arrows, space);
 
@@ -277,6 +279,22 @@ namespace The_Super_Mario_WannaBe
                     --i;
                 }
             }
+        }
+
+        public override int ChangeLevel()
+        {
+            if (Hero.Character.Y > FormHeight)
+            {
+                this.Hero.Character = new RectangleF(this.Hero.Character.X, 1, this.Hero.Character.Width, this.Hero.Character.Height);
+                return 1;
+            }
+            else if(Hero.Character.X < 0)
+            {
+                this.Hero.Character = new RectangleF(FormWidth - GenericBlock1.Width, 6 * GenericBlock1.Height, Hero.Character.Width, Hero.Character.Height);
+                return 3;
+            }
+
+            return -1;
         }
     }
 }
