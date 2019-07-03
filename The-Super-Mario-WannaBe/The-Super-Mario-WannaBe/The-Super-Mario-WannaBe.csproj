@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apple.cs" />
+    <Compile Include="BreakableBlock.cs" />
     <Compile Include="FallingSpike.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -60,6 +61,9 @@
     <Compile Include="Level2.cs" />
     <Compile Include="Level3.cs" />
     <Compile Include="Level4.cs" />
+    <Compile Include="Level5.cs" />
+    <Compile Include="Level6.cs" />
+    <Compile Include="Moon.cs" />
     <Compile Include="PeekingSpikes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,6 +176,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\UpRightSpikesLevel4.png" />
+    <None Include="Resources\Water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lightning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Moon-transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

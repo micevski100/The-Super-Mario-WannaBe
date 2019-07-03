@@ -11,7 +11,7 @@ namespace The_Super_Mario_WannaBe
     {
         public Hero Hero { get; set; }
         public List<Rectangle> Boundaries { get; set; }
-        public static readonly int jumpSize = 30; //jumpsize;
+        public int jumpSize = 30; //jumpsize;
         public int currentJump = 0;
         public bool isDoubleJumping = false;
         abstract public void Draw(Graphics g);

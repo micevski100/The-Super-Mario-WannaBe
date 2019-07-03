@@ -153,9 +153,25 @@ namespace The_Super_Mario_WannaBe.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+<<<<<<< HEAD
         internal static System.Drawing.Bitmap LeftToRightHorizontalSpike {
             get {
                 object obj = ResourceManager.GetObject("LeftToRightHorizontalSpike", resourceCulture);
+=======
+        internal static System.Drawing.Bitmap Lightning {
+            get {
+                object obj = ResourceManager.GetObject("Lightning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Moon {
+            get {
+                object obj = ResourceManager.GetObject("Moon", resourceCulture);
+>>>>>>> Level5
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -266,6 +282,16 @@ namespace The_Super_Mario_WannaBe.Properties {
         internal static System.Drawing.Bitmap UpsideDownSpikes {
             get {
                 object obj = ResourceManager.GetObject("UpsideDownSpikes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Water {
+            get {
+                object obj = ResourceManager.GetObject("Water", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
