@@ -18,6 +18,7 @@ namespace The_Super_Mario_WannaBe
         public bool hitLeftWall1;
         public int LeftWall { get; set; }
         public bool IsActive { get; set; }
+        public int Timer { get; set; }
 
         public Bitmap NewImage { get; set; }
 
@@ -31,6 +32,7 @@ namespace The_Super_Mario_WannaBe
             hitLeftWall = false;
             hitLeftWall1 = false;
             IsActive = false;
+            Timer = 0;
 
             NewImage = new Bitmap(Image);
         }
@@ -170,7 +172,13 @@ namespace The_Super_Mario_WannaBe
                 int x = Center.X - Radius;
                 int y = Center.Y - Radius;
                 g.DrawImage(NewImage, new Point(x, y));
-                NewImage = Level6.RotateImage(Image, Spin += 5, false, true, Color.Transparent);
+
+                Timer++;
+
+                if (Timer % 6 == 0)
+                {
+                    NewImage = Level6.RotateImage(Image, Spin += 10, false, true, Color.Transparent);
+                }
             }
         }
     }
