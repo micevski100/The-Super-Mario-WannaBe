@@ -105,7 +105,7 @@ namespace The_Super_Mario_WannaBe
             lightning = new Lightning(11 * GenericBlock1.Width + 5, 5 * GenericBlock1.Height);
             lightning.Trigger = new Rectangle(lightning.Bounds.X + 10, lightning.Bounds.Y + 15, lightning.Bounds.Width / 3, 5 * GenericBlock1.Height + 15);
 
-            this.jumpSize = 35;
+            this.JumpSize = 35;
         }
 
         private void InitializeApples()

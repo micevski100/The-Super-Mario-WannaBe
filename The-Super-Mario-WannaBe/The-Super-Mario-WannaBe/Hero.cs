@@ -9,36 +9,31 @@ namespace The_Super_Mario_WannaBe
 {
     public class Hero
     {
-        public enum DIRECTION
-        {
-            Left,
-            Right,
-            Up,
-            None
-        }
-        public RectangleF Character { get; set; }
-        public bool Dead { get; set; }
-        public static readonly Image GameOverMessage = Properties.Resources.GameOverMessage;
-        public List<Image> StandingLeftFrames { get; set; }
-        public List<Image> StandingRightFrames { get; set; }
-        public List<Image> RunningLeftFrames { get; set; }
-        public List<Image> RunningRightFrames { get; set; }
-        public List<Image> JumpingLeftFrames { get; set; }
-        public List<Image> JumpingRightFrames { get; set; }
+        public enum DIRECTION { Left, Right, Up, None }
 
+        public static readonly Image GameOverMessage = Properties.Resources.GameOverMessage;
+        private static readonly int framesBeforeChange = 5;
+
+        public static List<Image> StandingLeftFrames { get; set; }
+        public static List<Image> StandingRightFrames { get; set; }
+        public static List<Image> RunningLeftFrames { get; set; }
+        public static List<Image> RunningRightFrames { get; set; }
+        public static List<Image> JumpingLeftFrames { get; set; }
+        public static List<Image> JumpingRightFrames { get; set; }
+
+        public RectangleF Character { get; set; }
+        public bool OnGround { get; set; }
+        public bool Dead { get; set; }
         public int CurrentStandingFrame { get; set; }
         public int CurrentJumpingFrame { get; set; }
         public int CurrentRunningFrame { get; set; }
-
-        public Image CurrentFrame { get; set; }
-        public bool OnGround { get; set; }
         public DIRECTION PreviousFrame { get; set; }
-        private readonly int framesBeforeChange = 5;
+        public Image CurrentFrame { get; set; }
 
 
         public Hero()
         {
-            Character = new RectangleF((int) (4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width/2, Level1.GenericBlock1.Height/2);
+            Character = new RectangleF((int) (4.8 * Level1.GenericBlock1.Width), Level1.GenericBlock1.Height, Level1.GenericBlock1.Width / 2, Level1.GenericBlock1.Height / 2);
             Dead = false;
 
             CurrentFrame = Properties.Resources.standing1r;
@@ -196,14 +191,12 @@ namespace The_Super_Mario_WannaBe
                 {
                     CurrentFrame = JumpingLeftFrames[CurrentJumpingFrame / framesBeforeChange];
                     ++CurrentJumpingFrame;
-                    //PreviousFrame = DIRECTION.Left;
                     CurrentJumpingFrame %= 2 * framesBeforeChange;
                 }
                 else
                 {
                     CurrentFrame = JumpingRightFrames[CurrentJumpingFrame / framesBeforeChange];
                     ++CurrentJumpingFrame;
-                    //PreviousFrame = DIRECTION.Right;
                     CurrentJumpingFrame %= 2 * framesBeforeChange;
                 }
                 Character = MoveUp();
