@@ -11,15 +11,12 @@ namespace The_Super_Mario_WannaBe
     {
         public class ElevatorFloor
         {
-            public enum FloorType
-            {
-                GoingDown,
-                GoingUp
-            }
+            public enum FloorType { GoingDown, GoingUp }
 
             public static readonly int UpperLimit = GenericBlock1.Height;
             public static readonly int LowerLimit = FormHeight - GenericBlock1.Height;
             public static readonly Image MovingFloor = Properties.Resources.MovingFloor;
+
             public Rectangle Bounds { get; set; }
             public int Speed { get; set; }
             public FloorType Type;
@@ -35,7 +32,7 @@ namespace The_Super_Mario_WannaBe
                     Speed = -1;
                 }
 
-                this.Bounds = new Rectangle(Location.X, Location.Y, MovingFloor.Width + 15, MovingFloor.Height + 2);
+                Bounds = new Rectangle(Location.X, Location.Y, MovingFloor.Width + 15, MovingFloor.Height + 2);
                 this.Type = Type;
             }
 
@@ -78,21 +75,17 @@ namespace The_Super_Mario_WannaBe
         public static readonly Image Pole = Properties.Resources.Pole;
         public static readonly int FormHeight = Level2.FormHeight;
         public static readonly int FormWidth = Level2.FormWidth + 1;
+
         public Size SizeOfTrigger = Properties.Resources.SingleSpikeUpsideDown.Size;
-        public List<Rectangle> StaticSpikes { get; set; }
+        public Rectangle UpsideDownSpikesBounds { get; set; }
+        public Rectangle UpRightSpikesBounds { get; set; }
+        public Random RandomFloorGenerator { get; set; } // za inicijalni pozicii na floors vo ramki na eden elevator
         public List<ElevatorFloor> Elevator1 { get; set; }
         public List<ElevatorFloor> Elevator2 { get; set; }
         public List<ElevatorFloor> Elevator3 { get; set; }
-        public Rectangle UpsideDownSpikesBounds { get; set; }
-        public Rectangle UpRightSpikesBounds { get; set; }
-
+        public List<Rectangle> StaticSpikes { get; set; }
         public List<FallingSpike> FallingSpikes { get; set; }
-
-        /* we do smart things in the most stupid way possible - mantra*/
-
         public List<Rectangle> Poles { get; set; }
-        public Random RandomFloorGenerator { get; set; } // za inicijalni pozicii na floors vo ramki na eden elevator
-
         public List<PeekingSpikes> peekingSpikes { get; set; }
 
         public Level3(Hero Hero)
@@ -102,41 +95,28 @@ namespace The_Super_Mario_WannaBe
             Poles = new List<Rectangle>();
             InitializeBounds();
             InitializePoles();
-
             RandomFloorGenerator = new Random();
-
             UpsideDownSpikesBounds = new Rectangle(GenericBlock1.Width, GenericBlock1.Height, 21 * GenericBlock1.Width, GenericBlock1.Height);
             UpRightSpikesBounds = new Rectangle(GenericBlock1.Width, FormHeight - 2 * GenericBlock1.Height, 23 * GenericBlock1.Width, GenericBlock1.Height);
-
             InitializeElevator1();
             InitializeElevator2();
             InitializeElevator3();
-
             InitializeTriggers();
-
             InitializeFallingSpikes();
             InitializePeekingSpikes();
-
             this.Hero = Hero;
-            //this.Hero.Character = new RectangleF(FormWidth - 1, 7 * GenericBlock1.Height, Hero.Character.Width, Hero.Character.Height);
         }
 
         private void InitializeFallingSpikes()
         {
             FallingSpikes = new List<FallingSpike>();
-
             FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 6 * GenericBlock1.Width - 7, GenericBlock1.Height, Poles[2], FallingSpike.Type.GoingDown));
-
             Rectangle Trigger = new Rectangle(Poles[1].X + 10, Poles[1].Y, 6 * Poles[1].Width, Poles[1].Height);
-
             FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 14 * GenericBlock1.Width - 4, GenericBlock1.Height, Trigger, FallingSpike.Type.GoingDown));
             FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 13 * GenericBlock1.Width - 4, GenericBlock1.Height, Trigger, FallingSpike.Type.GoingDown));
             FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 12 * GenericBlock1.Width - 4, GenericBlock1.Height, Trigger, FallingSpike.Type.GoingDown));
-
-            //surprise madafaka
             FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 5 * GenericBlock1.Width + 1, Level3.FormHeight - 2 * GenericBlock1.Height, Poles[2], FallingSpike.Type.GoingUp));
             FallingSpikes.Add(new FallingSpike(Level3.FormWidth - 7 * GenericBlock1.Width + 1, Level3.FormHeight - 2 * GenericBlock1.Height, Poles[2], FallingSpike.Type.GoingUp));
-
         }
 
         public void InitializeBounds()
@@ -152,7 +132,6 @@ namespace The_Super_Mario_WannaBe
             Boundaries.Add(new Rectangle(FormWidth - 2 * GenericBlock1.Width, FormHeight - 12 * GenericBlock1.Height, 2 * GenericBlock1.Width, GenericBlock1.Height));
             Boundaries.Add(new Rectangle(FormWidth - GenericBlock1.Width, GenericBlock1.Height, GenericBlock1.Width, 3 * GenericBlock1.Height));
             Boundaries.Add(new Rectangle(FormWidth - 2 * GenericBlock1.Width, GenericBlock1.Height, GenericBlock1.Width, GenericBlock1.Height));
-
 
             // Adding LeftWall
             Boundaries.Add(new Rectangle(0, GenericBlock1.Height, GenericBlock1.Width, 4 * GenericBlock1.Height));
@@ -319,67 +298,6 @@ namespace The_Super_Mario_WannaBe
             g.DrawImage(UpRightSpikes, UpRightSpikesBounds);
         }
 
-        public override void Draw(Graphics g)
-        {
-            DrawPeekingSpikes(g);
-            DrawPoles(g);
-            DrawRightWall(g);
-            DrawLeftWall(g);
-            DrawBottom(g);
-            DrawCelling(g);
-            DrawUpsideDownSpikes(g);
-            DrawUpRightSpikes(g);
-
-            foreach(ElevatorFloor floor in Elevator1)
-            {
-                floor.Draw(g);
-            }
-
-            foreach (ElevatorFloor floor in Elevator3)
-            {
-                floor.Draw(g);
-            }
-
-            foreach (ElevatorFloor floor in Elevator2)
-            {
-                floor.Draw(g);
-            }
-
-            // How much wood would a wood chuck chuck if a would chuck could chuck wood?
-            //    - Answer correct: +15pts
-            foreach(FallingSpike fallingSpike in FallingSpikes)
-            {
-                fallingSpike.Draw(g);
-            }
-
-            Hero.Draw(g);
-
-        }
-
-        public override void Update(bool[] arrows, bool space)
-        {
-
-            foreach (ElevatorFloor floor in Elevator1)
-            {
-                floor.Move();
-            }
-            foreach(ElevatorFloor floor in Elevator3)
-            {
-                floor.Move();
-            }
-
-            foreach(ElevatorFloor floor in Elevator2)
-            {
-                floor.Move();
-            }
-
-            UpdateElevatorBounds();
-            UpdateFallingSpikes();
-            CheckCollisionWithStaticSpikes();
-            UpdatePeekingSpikes();
-            base.Update(arrows, space);
-        }
-
         private void CheckCollisionWithStaticSpikes()
         {
             foreach (Rectangle staticSpike in StaticSpikes)
@@ -460,6 +378,30 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
+        public override void Update(bool[] arrows, bool space)
+        {
+
+            foreach (ElevatorFloor floor in Elevator1)
+            {
+                floor.Move();
+            }
+            foreach (ElevatorFloor floor in Elevator3)
+            {
+                floor.Move();
+            }
+
+            foreach (ElevatorFloor floor in Elevator2)
+            {
+                floor.Move();
+            }
+
+            UpdateElevatorBounds();
+            UpdateFallingSpikes();
+            CheckCollisionWithStaticSpikes();
+            UpdatePeekingSpikes();
+            base.Update(arrows, space);
+        }
+
         public override int ChangeLevel()
         {
             if (Hero.Character.X > FormWidth)
@@ -474,6 +416,41 @@ namespace The_Super_Mario_WannaBe
             }
 
             return -1;
+        }
+
+        public override void Draw(Graphics g)
+        {
+            DrawPeekingSpikes(g);
+            DrawPoles(g);
+            DrawRightWall(g);
+            DrawLeftWall(g);
+            DrawBottom(g);
+            DrawCelling(g);
+            DrawUpsideDownSpikes(g);
+            DrawUpRightSpikes(g);
+
+            foreach (ElevatorFloor floor in Elevator1)
+            {
+                floor.Draw(g);
+            }
+
+            foreach (ElevatorFloor floor in Elevator3)
+            {
+                floor.Draw(g);
+            }
+
+            foreach (ElevatorFloor floor in Elevator2)
+            {
+                floor.Draw(g);
+            }
+
+            foreach (FallingSpike fallingSpike in FallingSpikes)
+            {
+                fallingSpike.Draw(g);
+            }
+
+            Hero.Draw(g);
+
         }
     }
 }

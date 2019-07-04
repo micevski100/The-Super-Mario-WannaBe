@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace The_Super_Mario_WannaBe
 {
     //Impossible level
-    // idejata na ati, mission impossible scene
     public class Level4 : Level
     {
         public static readonly Image GenericBlock1 = Level1.GenericBlock1;
@@ -18,9 +17,9 @@ namespace The_Super_Mario_WannaBe
         public static readonly Image UprightSpike = Properties.Resources.UpRightSpikesLevel4;
         public static int FormHeight = Level1.FormHeight + 2;
         public static int FormWidth = Level1.FormWidth;
+
         public Rectangle leftBackground = new Rectangle(3 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
         public Rectangle rightBackground = new Rectangle(18 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
-
         public List<Rectangle> LeftSpikes { get; set; }
         public List<Rectangle> RightSpikes { get; set; }
         public List<Rectangle> BottomSpikes { get; set; }
@@ -31,8 +30,8 @@ namespace The_Super_Mario_WannaBe
             InitializeBoundaries();
             InitializeSpikes();
             InitializeTriggers();
-            this.Hero = hero;
-            this.Hero.Character = new RectangleF(FormWidth / 2, 0.5f, this.Hero.Character.Width, this.Hero.Character.Height);
+            Hero = hero;
+            Hero.Character = new RectangleF(FormWidth / 2, 0.5f, this.Hero.Character.Width, this.Hero.Character.Height);
         }
 
         private void InitializeTriggers()
@@ -164,19 +163,6 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public override void Update(bool[] arrows, bool space)
-        {
-            base.Update(arrows, space);
-            CheckCollisionWithStaticSpikes();
-        }
-
-        public override void Draw(Graphics g)
-        {
-            DrawBackgroundAndBlocks(g);
-            DrawSpikes(g);
-            Hero.Draw(g);
-        }
-
         private void CheckCollisionWithStaticSpikes()
         {
             foreach(Rectangle spike in Triggers)
@@ -204,9 +190,22 @@ namespace The_Super_Mario_WannaBe
             DrawRightWallSpikes(g);
         }
 
+        public override void Update(bool[] arrows, bool space)
+        {
+            base.Update(arrows, space);
+            CheckCollisionWithStaticSpikes();
+        }
+
         public override int ChangeLevel()
         {
             return -1;
+        }
+
+        public override void Draw(Graphics g)
+        {
+            DrawBackgroundAndBlocks(g);
+            DrawSpikes(g);
+            Hero.Draw(g);
         }
     }
 }

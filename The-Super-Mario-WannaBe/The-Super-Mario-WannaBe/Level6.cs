@@ -30,9 +30,8 @@ namespace The_Super_Mario_WannaBe
 
         public Level6(Hero hero)
         {
-            this.Hero = hero;
-            this.moon = new Moon(new Point(FormWidth - 185, -200));
-            //this.Hero.Character = new RectangleF(10, 12 * GenericBlock1.Height, this.Hero.Character.Width, this.Hero.Character.Height);
+            Hero = hero;
+            moon = new Moon(new Point(FormWidth - 185, -200));
             InitializeBoundaries();
             InitializeTrees();
             InitializeClouds();
@@ -79,9 +78,7 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        // taken/stolen from stackoverflow
-        public static Bitmap RotateImage(Image inputImage, float angleDegrees, bool upsizeOk,
-                                   bool clipOk, Color backgroundColor)
+        public static Bitmap RotateImage(Image inputImage, float angleDegrees, bool upsizeOk, bool clipOk, Color backgroundColor)
         {
             // Test for zero rotation and return a clone of the input image
             if (angleDegrees == 0f)
@@ -152,10 +149,8 @@ namespace The_Super_Mario_WannaBe
 
             Apples.Add(new Apple(4 * GenericBlock1.Width, FormHeight - 7 * GenericBlock1.Height, Rectangle.Empty, Apple.TypeOfApple.Flying));
             Apples[0].TriggerArea = new Rectangle(Apples[0].Bounds.X, 7 * GenericBlock1.Height, Apples[0].Bounds.Width, 4 * GenericBlock1.Height);
-
             Apples.Add(new Apple(10 * GenericBlock1.Width, FormHeight - 6 * GenericBlock1.Height, Rectangle.Empty, Apple.TypeOfApple.Flying));
             Apples[1].TriggerArea = new Rectangle(Apples[1].Bounds.X + 10, 8 * GenericBlock1.Height, Apples[1].Bounds.Width, 5 * GenericBlock1.Height);
-
             Apples.Add(new Apple(11 * GenericBlock1.Width, FormHeight - 6 * GenericBlock1.Height, Rectangle.Empty, Apple.TypeOfApple.Flying));
             Apples[2].TriggerArea = new Rectangle(Apples[2].Bounds.X - 10, 8 * GenericBlock1.Height, Apples[2].Bounds.Width, 5 * GenericBlock1.Height);
         }
@@ -316,103 +311,79 @@ namespace The_Super_Mario_WannaBe
 
         private void SetImages()
         {
-            //g.DrawImage(GenericBlockGrass, Boundaries[7]);
             BreakableBlocks[0].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 8; i < 12; i++)
             {
-                //g.DrawImage(GenericBlock1, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 12; i < 24; i++)
             {
-                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
-            //g.DrawImage(GenericBlock1, Boundaries[24]);
             BreakableBlocks[17].ChangeBitmap(GenericBlock1);
-
-            //g.DrawImage(GenericBlockGrass, Boundaries[25]);
             BreakableBlocks[18].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 26; i < 33; i++)
             {
-                //g.DrawImage(GenericBlock1, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 33; i < 36; i++)
             {
-                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 36; i < 44; i++)
             {
-                //g.DrawImage(GenericBlock1, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
-            //g.DrawImage(GenericBlockGrass, Boundaries[44]);
             BreakableBlocks[37].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 45; i < 48; i++)
             {
-                //g.DrawImage(GenericBlock1, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 48; i < 50; i++)
             {
-                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
-            //g.DrawImage(GenericBlock1, Boundaries[50]);
             BreakableBlocks[43].ChangeBitmap(GenericBlock1);
-
-            //g.DrawImage(GenericBlockGrass, Boundaries[51]);
             BreakableBlocks[44].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 52; i < 58; i++)
             {
-                //g.DrawImage(GenericBlock1, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 58; i < 63; i++)
             {
-                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
             for (int i = 63; i < 66; i++)
             {
-                //g.DrawImage(GenericBlock1, Boundaries[i]);
                 BreakableBlocks[43].ChangeBitmap(GenericBlock1);
             }
 
-            //g.DrawImage(GenericBlockGrass, Boundaries[66]);
             BreakableBlocks[59].ChangeBitmap(GenericBlockGrass);
 
             for (int i = 67; i < 69; i++)
             {
-                //g.DrawImage(GenericBlock1, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlock1);
             }
 
             for (int i = 69; i < 71; i++)
             {
-                //g.DrawImage(GenericBlockGrass, Boundaries[i]);
                 BreakableBlocks[i - 7].ChangeBitmap(GenericBlockGrass);
             }
 
-            //g.DrawImage(GenericBlock1, Boundaries[71]);
             BreakableBlocks[64].ChangeBitmap(GenericBlock1);
-
-            //g.DrawImage(GenericBlockGrass, Boundaries[72]);
             BreakableBlocks[65].ChangeBitmap(GenericBlockGrass);
         }
 
@@ -473,31 +444,6 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
-        public override void Draw(Graphics g)
-        {
-            DrawBackground(g);
-            Hero.Draw(g);
-            moon.Draw(g);
-
-            //g.DrawLine(new Pen(new SolidBrush(Color.Blue)), new Point(Level6.FormWidth - 7 * Level6.GenericBlock1.Width, 100),
-            //    new Point(Level6.FormWidth - 7 * Level6.GenericBlock1.Width, 400));
-        }
-
-        public override void Update(bool[] arrows, bool space)
-        {
-            DeleteUnnecessaryApples();
-            foreach (Apple apple in Apples)
-            {
-                apple.CheckCollision(Hero);
-                apple.Update(Hero);
-            }
-
-            CheckCollisionWithStaticSpikes();
-            moon.Move(Boundaries, Hero);
-            UpdateBreakableBlocks();
-            base.Update(arrows, space);
-        }
-
         private void DeleteUnnecessaryApples()
         {
             for (int i = 0; i < Apples.Count; i++)
@@ -522,6 +468,21 @@ namespace The_Super_Mario_WannaBe
             }
         }
 
+        public override void Update(bool[] arrows, bool space)
+        {
+            DeleteUnnecessaryApples();
+            foreach (Apple apple in Apples)
+            {
+                apple.CheckCollision(Hero);
+                apple.Update(Hero);
+            }
+
+            CheckCollisionWithStaticSpikes();
+            moon.Move(Boundaries, Hero);
+            UpdateBreakableBlocks();
+            base.Update(arrows, space);
+        }
+
         public override int ChangeLevel()
         {
             if (Hero.Character.X < 0)
@@ -534,6 +495,13 @@ namespace The_Super_Mario_WannaBe
                 return 4;
             }
             return -1;
+        }
+
+        public override void Draw(Graphics g)
+        {
+            DrawBackground(g);
+            Hero.Draw(g);
+            moon.Draw(g);
         }
     }
 }

@@ -96,7 +96,7 @@ namespace The_Super_Mario_WannaBe
 
         public Level5(Hero hero)
         {
-            this.Hero = hero;
+            Hero = hero;
             InitializeBoundaries();
             InitializeTrees();
             InitializeSpikes();
@@ -105,7 +105,7 @@ namespace The_Super_Mario_WannaBe
             lightning = new Lightning(11 * GenericBlock1.Width + 5, 5 * GenericBlock1.Height);
             lightning.Trigger = new Rectangle(lightning.Bounds.X + 10, lightning.Bounds.Y + 15, lightning.Bounds.Width / 3, 5 * GenericBlock1.Height + 15);
 
-            this.JumpSize = 35;
+            JumpSize = 35;
         }
 
         private void InitializeApples()
@@ -390,25 +390,6 @@ namespace The_Super_Mario_WannaBe
             DrawLastTwoVerticalBlocks(g);
         }
 
-        // fix spike picture bug
-        public override void Draw(Graphics g)
-        {
-            DrawTrees(g);
-            DrawApples(g);
-            DrawBackground(g);
-
-            foreach (FallingSpike fallingSpike in FallingSpikes)
-            {
-                fallingSpike.Draw(g);
-            }
-
-            DrawStaticSpikes(g);
-
-            Hero.Draw(g);
-
-            lightning.Draw(g);
-        }
-
         private void DeleteUnnecessaryApples()
         {
             for (int i = 0; i < Apples.Count; i++)
@@ -417,6 +398,40 @@ namespace The_Super_Mario_WannaBe
                 {
                     Apples.RemoveAt(i);
                     --i;
+                }
+            }
+        }
+
+        private void DeleteUnnecessarySpikes()
+        {
+            for (int i = 0; i < FallingSpikes.Count; i++)
+            {
+                FallingSpikes[i].CheckSpikePosition();
+                if (!FallingSpikes[i].InForm)
+                {
+                    FallingSpikes.RemoveAt(i);
+                    --i;
+                }
+            }
+        }
+
+        private void UpdateFallingSpikes()
+        {
+            foreach (FallingSpike fallingSpike in FallingSpikes)
+            {
+                fallingSpike.Update(this.Hero);
+            }
+            DeleteUnnecessarySpikes();
+        }
+
+        private void CheckCollisionWithStaticSpikes()
+        {
+            foreach (Rectangle staticSpike in StaticSpikes)
+            {
+                if (Hero.Character.IntersectsWith(staticSpike))
+                {
+                    Hero.Dead = true;
+                    break;
                 }
             }
         }
@@ -436,40 +451,6 @@ namespace The_Super_Mario_WannaBe
             base.Update(arrows, space);
         }
 
-        private void UpdateFallingSpikes()
-        {
-            foreach (FallingSpike fallingSpike in FallingSpikes)
-            {
-                fallingSpike.Update(this.Hero);
-            }
-            DeleteUnnecessarySpikes();
-        }
-
-        private void DeleteUnnecessarySpikes()
-        {
-            for (int i = 0; i < FallingSpikes.Count; i++)
-            {
-                FallingSpikes[i].CheckSpikePosition();
-                if (!FallingSpikes[i].InForm)
-                {
-                    FallingSpikes.RemoveAt(i);
-                    --i;
-                }
-            }
-        }
-
-        private void CheckCollisionWithStaticSpikes()
-        {
-            foreach (Rectangle staticSpike in StaticSpikes)
-            {
-                if (Hero.Character.IntersectsWith(staticSpike))
-                {
-                    Hero.Dead = true;
-                    break;
-                }
-            }
-        }
-
         public override int ChangeLevel()
         {
             if (Hero.Character.X < 0)
@@ -483,6 +464,24 @@ namespace The_Super_Mario_WannaBe
                 return 6;
             }
             return -1;
+        }
+
+        public override void Draw(Graphics g)
+        {
+            DrawTrees(g);
+            DrawApples(g);
+            DrawBackground(g);
+
+            foreach (FallingSpike fallingSpike in FallingSpikes)
+            {
+                fallingSpike.Draw(g);
+            }
+
+            DrawStaticSpikes(g);
+
+            Hero.Draw(g);
+
+            lightning.Draw(g);
         }
     }
 }

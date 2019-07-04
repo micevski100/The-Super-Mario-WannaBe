@@ -19,8 +19,6 @@ namespace The_Super_Mario_WannaBe
         public Level CurrentLevel { get; set; }
         public int restartAt { get; set; }
 
-
-
         public Form1()
         {
             InitializeComponent();
