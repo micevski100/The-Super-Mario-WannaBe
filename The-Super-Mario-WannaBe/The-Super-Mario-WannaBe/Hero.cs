@@ -27,8 +27,8 @@ namespace The_Super_Mario_WannaBe
         public int CurrentStandingFrame { get; set; }
         public int CurrentJumpingFrame { get; set; }
         public int CurrentRunningFrame { get; set; }
-        public DIRECTION PreviousFrame { get; set; }
         public Image CurrentFrame { get; set; }
+        public DIRECTION PreviousFrame { get; set; }
 
 
         public Hero()

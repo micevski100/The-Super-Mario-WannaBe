@@ -25,7 +25,7 @@ namespace The_Super_Mario_WannaBe
         {
             InitializeComponent();
             this.DoubleBuffered = true;
-            CurrentLevel = new Level1(new Hero());
+            CurrentLevel = new Level2(new Hero());
 
             arrows = new bool[]{ false, false };
             space = false;

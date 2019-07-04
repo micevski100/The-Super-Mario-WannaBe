@@ -11,26 +11,23 @@ namespace The_Super_Mario_WannaBe
     {
         public class Spike
         {
-            public enum TypeOfSpike
-            {
-                LeftToRight,
-                RightToLeft
-            }
+            public enum TypeOfSpike { LeftToRight, RightToLeft}
+
+            private static readonly Image LeftToRightSpike = Properties.Resources.left_to_right_spike;
+            private static readonly Image RightToLeftSpike = Properties.Resources.right_to_left_spike;
 
             public Rectangle Bounds { get; set; }
             public Rectangle Start { get; set; }
             public Rectangle Destination { get; set; }
-            public bool IsActive { get; set; }
             public int TopBoundary { get; set; }
             public int LowBoundary { get; set; }
+            public int VerticalBoundary { get; set; }
+            public int Timer { get; set; }
             public TypeOfSpike Type { get; set; }
+            public bool IsActive { get; set; }
             public bool ArrivedAtDestination { get; set; }
             public bool ArrivedAtBeginning { get; set; }
-            private static readonly Image LeftToRightSpike = Properties.Resources.left_to_right_spike;
-            private static readonly Image RightToLeftSpike = Properties.Resources.right_to_left_spike;
-            public int VerticalBoundary { get; set; }
             public bool Inequality { get; set; }
-            public int Timer { get; set; }
 
             public Spike(Rectangle Start, Rectangle End, int TopBoundary, int LowBoundary, TypeOfSpike Type, int VerticalBoundary, bool Inequality)
             {
@@ -48,7 +45,7 @@ namespace The_Super_Mario_WannaBe
                 Timer = 0;
             }
 
-            private void CheckHeroPosition(Hero Hero) // heroIsInPosition bool
+            private void CheckHeroPosition(Hero Hero)
             {
                 if (Hero.Character.Y >= TopBoundary && Hero.Character.Y <= LowBoundary)
                 {
@@ -66,6 +63,14 @@ namespace The_Super_Mario_WannaBe
                             Activate();
                         }
                     }
+                }
+            }
+
+            public void Collision(Hero Hero)
+            {
+                if (Hero.Character.IntersectsWith(Bounds))
+                {
+                    Hero.Dead = true;
                 }
             }
 
@@ -138,21 +143,6 @@ namespace The_Super_Mario_WannaBe
                 }
             }
 
-            public void Draw(Graphics g)
-            {
-                if (IsActive && Timer >= 100)
-                {
-                    if (Type == TypeOfSpike.LeftToRight)
-                    {
-                        g.DrawImage(LeftToRightSpike, Bounds);
-                    }
-                    else
-                    {
-                        g.DrawImage(RightToLeftSpike, Bounds);
-                    }
-                }
-            }
-
             private void MoveLeft()
             {
                 int x = Bounds.X - 10;
@@ -193,11 +183,18 @@ namespace The_Super_Mario_WannaBe
                 Bounds = new Rectangle(x, y, width, height);
             }
 
-            public void Collision(Hero Hero)
+            public void Draw(Graphics g)
             {
-                if (Hero.Character.IntersectsWith(Bounds))
+                if (IsActive && Timer >= 100)
                 {
-                    Hero.Dead = true;
+                    if (Type == TypeOfSpike.LeftToRight)
+                    {
+                        g.DrawImage(LeftToRightSpike, Bounds);
+                    }
+                    else
+                    {
+                        g.DrawImage(RightToLeftSpike, Bounds);
+                    }
                 }
             }
         }
@@ -207,6 +204,7 @@ namespace The_Super_Mario_WannaBe
         public static readonly Image GenericBlock1 = Properties.Resources.generic_block1;
         public static readonly Image GenericBlock2 = Properties.Resources.generic_block2;
         public static readonly Image GenericBackground = Properties.Resources.generic_background1;
+
         public List<Spike> Spikes = new List<Spike>();
 
         public Level1(Hero hero)
@@ -215,7 +213,6 @@ namespace The_Super_Mario_WannaBe
             InitializeList();
             InitializeSpikes();
             this.Hero = hero;
-            //this.Hero.Character = new RectangleF(this.Hero.Character.X, 1, this.Hero.Character.Width, this.Hero.Character.Height);
         }
 
         private void InitializeSpikes()
@@ -264,61 +261,6 @@ namespace The_Super_Mario_WannaBe
 
         }
 
-        public override void Draw(Graphics g)
-        {
-            // adding generic background
-            Rectangle leftBackground = new Rectangle(3 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
-            Rectangle rightBackground = new Rectangle(18 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
-
-       
-            // repeating the same image vertically
-            for (int i = 0; i < leftBackground.Height; i += GenericBackground.Height)
-            {
-                g.DrawImage(GenericBackground, new Rectangle(leftBackground.X, i, 4 * GenericBlock1.Width, GenericBlock1.Height));
-            }
-
-            for (int i = 0; i < rightBackground.Height; i += GenericBackground.Height)
-            {
-                g.DrawImage(GenericBackground, new Rectangle(rightBackground.X, i, 4 * GenericBlock1.Width, GenericBlock1.Height));
-            }
-
-            // iterating floors and cellings
-            for (int j = 0; j < Boundaries.Count; j++)
-            {
-                if ( j <= 1) // vertical rectangles
-                {
-                    // drawing blocks frames inside 
-                    for (int i = 0; i < Boundaries[j].Height; i += GenericBlock1.Height)
-                    {
-                        g.DrawImage(GenericBlock1, new Rectangle(Boundaries[j].X, i, GenericBlock1.Width, GenericBlock1.Height));
-                    }
-                }
-                else // horizontal rectangles
-                {
-                    // drawing block frames inside
-                    for (int i = 0; i < Boundaries[j].Width; i += GenericBlock1.Width)
-                    {
-                        if ( j < 4) // ceiling
-                        {
-                            g.DrawImage(GenericBlock1, new Rectangle(i + Boundaries[j].X, Boundaries[j].Y, GenericBlock1.Width, GenericBlock1.Height));
-                        }
-                        else // floors
-                        {
-                            g.DrawImage(GenericBlock2, new Rectangle(i + Boundaries[j].X, Boundaries[j].Y, GenericBlock1.Width, GenericBlock1.Height));
-                        }
-                    }
-                }
-
-            }
-
-            foreach(Spike spike in Spikes)
-            {
-                spike.Draw(g);
-            }
-
-            Hero.Draw(g);
-        }
-
         public void UpdateSpikes()
         {
             foreach(Spike spike in Spikes)
@@ -361,6 +303,61 @@ namespace The_Super_Mario_WannaBe
             }
 
             return -1;
+        }
+
+        public override void Draw(Graphics g)
+        {
+            // adding generic background
+            Rectangle leftBackground = new Rectangle(3 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
+            Rectangle rightBackground = new Rectangle(18 * GenericBlock1.Width, 0, 4 * GenericBlock1.Width, FormHeight);
+
+
+            // repeating the same image vertically
+            for (int i = 0; i < leftBackground.Height; i += GenericBackground.Height)
+            {
+                g.DrawImage(GenericBackground, new Rectangle(leftBackground.X, i, 4 * GenericBlock1.Width, GenericBlock1.Height));
+            }
+
+            for (int i = 0; i < rightBackground.Height; i += GenericBackground.Height)
+            {
+                g.DrawImage(GenericBackground, new Rectangle(rightBackground.X, i, 4 * GenericBlock1.Width, GenericBlock1.Height));
+            }
+
+            // iterating floors and cellings
+            for (int j = 0; j < Boundaries.Count; j++)
+            {
+                if (j <= 1) // vertical rectangles
+                {
+                    // drawing blocks frames inside 
+                    for (int i = 0; i < Boundaries[j].Height; i += GenericBlock1.Height)
+                    {
+                        g.DrawImage(GenericBlock1, new Rectangle(Boundaries[j].X, i, GenericBlock1.Width, GenericBlock1.Height));
+                    }
+                }
+                else // horizontal rectangles
+                {
+                    // drawing block frames inside
+                    for (int i = 0; i < Boundaries[j].Width; i += GenericBlock1.Width)
+                    {
+                        if (j < 4) // ceiling
+                        {
+                            g.DrawImage(GenericBlock1, new Rectangle(i + Boundaries[j].X, Boundaries[j].Y, GenericBlock1.Width, GenericBlock1.Height));
+                        }
+                        else // floors
+                        {
+                            g.DrawImage(GenericBlock2, new Rectangle(i + Boundaries[j].X, Boundaries[j].Y, GenericBlock1.Width, GenericBlock1.Height));
+                        }
+                    }
+                }
+
+            }
+
+            foreach (Spike spike in Spikes)
+            {
+                spike.Draw(g);
+            }
+
+            Hero.Draw(g);
         }
     }
 }
